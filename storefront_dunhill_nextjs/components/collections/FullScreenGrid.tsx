@@ -8,15 +8,15 @@ import Image from "next/image";
 
 export default function FullScreenGrid() {
     return (
-			<div className="flex flex-col w-full h-dvh relative">
-				<div className="grid grid-cols-1 grid-cols-2 h-full">
-					<div className="flex flex-col h-full relative items-center justify-center">
+			<div className="flex flex-col w-full relative">
+				<div className="grid grid-cols-1 lg:grid-cols-2 h-full relative">
+					<div className="flex flex-col min-h-100 items-center justify-center relative">
 						<Image
 							src="/images/dunhill-gifting-1.jpg"
 							alt="Full Screen Banner"
 							width={1000}
 							height={1000}
-							className="absolute top-0 left-0 w-full h-dvh object-cover z-0"
+							className="absolute top-0 left-0 w-full h-full object-cover z-0"
 						/>
 						<div className="flex flex-col items-center justify-center z-10">
 							<h3 className="text-white text-lg font-semibold uppercase">
@@ -27,13 +27,13 @@ export default function FullScreenGrid() {
 							</p>
 						</div>
 					</div>
-					<div className="flex flex-col h-full relative items-center justify-center">
+					<div className="flex flex-col min-h-100 items-center justify-center relative">
 						<Image
 							src="/images/dunhill-gifting-2.jpg"
 							alt="Full Screen Banner"
 							width={1000}
 							height={1000}
-							className="absolute top-0 left-0 w-full h-dvh object-cover z-0"
+							className="absolute top-0 left-0 w-full h-full object-cover z-0"
 						/>
 						<div className="flex flex-col items-center justify-center z-10">
 							<h3 className="text-white text-lg font-semibold uppercase">

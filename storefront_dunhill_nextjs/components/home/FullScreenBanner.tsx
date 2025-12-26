@@ -4,47 +4,23 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import Link from "next/link";
+import { useHeaderStore } from "@/stores/header";
 
 export default function FullScreenBanner() {
 	const sectionRef = useRef<HTMLDivElement>(null);
-	const [bannerTopPosition, setBannerTopPosition] = useState(0);
-	const [marginTop, setMarginTop] = useState(0);
+	const headerHeight = useHeaderStore((state) => state.height);
 
-	useEffect(() => {
-		if (sectionRef.current) {
-			const position = sectionRef.current.getBoundingClientRect().top;
-			console.log(position);
-			setBannerTopPosition(position);
-			setMarginTop(position);
-		}
-	}, [
-	]);
-
-	// set sectionRef margin top on scroll
-	// useEffect(() => {
-	// 	const handleScroll = () => {
-	// 		if (sectionRef.current) {
-	// 			const position = window.scrollY;
-	// 			setMarginTop(position);
-	// 		}
-	// 	};
-	// 	window.addEventListener("scroll", handleScroll);
-	// 	return () => {
-	// 		window.removeEventListener("scroll", handleScroll);
-	// 	};
-	// }, []);
 	return (
 		<div
 			ref={sectionRef}
-			className="w-full flex flex-col items-center justify-end sticky top-0"
+			className="w-full flex flex-col items-center justify-end relative"
 			style={{
-				// height: `calc(100dvh - ${bannerTopPosition}px)`,
 				minHeight: "100dvh",
-				marginTop: `-${marginTop}px`,
+				marginTop: `-${headerHeight}px`,
 			}}
 		>
 			<motion.div
-				initial={{ opacity: 0 }}
+				initial={{ opacity: 0.5 }}
 				animate={{ opacity: 1 }}
 				transition={{ duration: 0.5 }}
 				exit={{ opacity: 0 }}
@@ -55,6 +31,7 @@ export default function FullScreenBanner() {
 					alt="Full Screen Banner"
 					width={1000}
 					height={1000}
+					loading="lazy"
 					className="absolute top-0 left-0 w-full h-full object-cover z-0"
 				/>
 			</motion.div>
@@ -66,7 +43,7 @@ export default function FullScreenBanner() {
 					exit={{ opacity: 0, y: 10 }}
 					className="text-white text-lg font-semibold uppercase"
 				>
-					The gift of time - height {bannerTopPosition}, margin top {marginTop}
+					The gift of time
 				</motion.h3>
 				<motion.div
 					initial={{ opacity: 0, y: 10 }}

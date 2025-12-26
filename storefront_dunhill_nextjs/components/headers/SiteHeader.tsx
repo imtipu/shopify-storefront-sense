@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import BrandLogo from "@/assets/logo/brand-logo.svg";
@@ -8,10 +8,25 @@ import Link from "next/link";
 
 import { LeftMenu, RightMenu } from "@/constants/menu/header";
 import AnnouncementBar from "./AnnouncementBar";
+import { useHeaderStore } from "@/stores/header";
 
 export default function SiteHeader() {
+	const sectionRef = useRef<HTMLDivElement>(null);
+	const topPosition = useHeaderStore((state) => state.topPosition);
+	const height = useHeaderStore((state) => state.height);
+	const setHeight = useHeaderStore((state) => state.setHeight);
+
+	console.log(topPosition, height);
+
+	useEffect(() => {
+		if (sectionRef.current) {
+			// get height of the section
+			const height = sectionRef.current.offsetHeight;
+			setHeight(height);
+		}
+	}, []);
 	return (
-		<div className="flex flex-col w-full z-50 sticky top-0">
+		<div ref={sectionRef} className="flex flex-col w-full z-50 sticky top-0">
 			<AnnouncementBar />
 			<div className="flex flex-col w-full bg-transparent py-2 z-50 relative">
 				{/* left and right menu with logo in center */}
