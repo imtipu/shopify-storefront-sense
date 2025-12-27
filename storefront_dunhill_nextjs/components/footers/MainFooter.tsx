@@ -4,9 +4,9 @@ import Link from "next/link";
 
 export default function MainFooter() {
 	return (
-		<div className="flex flex-col w-full bg-black items-center justify-center py-10">
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-7xl">
-				<div className="flex flex-col gap-2">
+		<div className="flex flex-col w-full bg-black items-center justify-center">
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-7xl py-10">
+				<div className="flex flex-col gap-2 px-3 xl:px-0">
 					<h3 className="text-white text-md font-medium">Customer Service</h3>
 					<div className="flex flex-col gap-1">
 						<Link
@@ -35,7 +35,7 @@ export default function MainFooter() {
 						</Link>
 					</div>
 				</div>
-				<div className="flex flex-col gap-2">
+				<div className="flex flex-col gap-2 px-3 xl:px-0">
 					<h3 className="text-white text-md font-medium">Legal</h3>
 					<div className="flex flex-col gap-1">
 						<Link
@@ -58,7 +58,7 @@ export default function MainFooter() {
 						</Link>
 					</div>
 				</div>
-				<div className="flex flex-col gap-2">
+				<div className="flex flex-col gap-2 px-3 xl:px-0">
 					<h3 className="text-white text-md font-medium">Social</h3>
 					<div className="flex flex-col gap-1">
 						<Link
@@ -78,15 +78,21 @@ export default function MainFooter() {
 							className="text-white text-sm hover:pl-0.5 transition-all duration-300"
 						>
 							Twitter
-                        </Link>
-                        <Link
-                            href={"#"}
-                            className="text-white text-sm hover:pl-0.5 transition-all duration-300"
-                        >
-                            YouTube
-                        </Link>
+						</Link>
+						<Link
+							href={"#"}
+							className="text-white text-sm hover:pl-0.5 transition-all duration-300"
+						>
+							YouTube
+						</Link>
 					</div>
 				</div>
+			</div>
+			{/* copyright bar */}
+			<div className="flex flex-col w-full py-2 px-3 xl:px-0 items-center justify-center">
+				<p className="text-white text-sm font-normal tracking-wide">
+					© {new Date().getFullYear()} Borhan Tipu. All rights reserved.
+				</p>
 			</div>
 		</div>
 	);
