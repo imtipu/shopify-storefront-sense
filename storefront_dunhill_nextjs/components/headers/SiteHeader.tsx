@@ -9,6 +9,8 @@ import Link from "next/link";
 import { LeftMenu, RightMenu } from "@/constants/menu/header";
 import AnnouncementBar from "./AnnouncementBar";
 import { useHeaderStore } from "@/stores/header";
+import MenuDrawer from "../sidebars/MenuDrawer";
+
 
 export default function SiteHeader() {
 	const sectionRef = useRef<HTMLDivElement>(null);
@@ -33,6 +35,7 @@ export default function SiteHeader() {
 				<div className="grid grid-cols-3 items-cente">
 					<div className="flex flex-col">
 						<div className="items-center hidden md:flex">
+							<MenuDrawer />
 							{LeftMenu.map((item, index) => (
 								<motion.div
 									initial={{ y: -10, opacity: 0 }}
