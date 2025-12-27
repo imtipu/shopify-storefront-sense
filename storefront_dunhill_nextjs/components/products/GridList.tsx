@@ -3,10 +3,14 @@
 import { motion } from "motion/react";
 
 import GridItem from "./GridItem";
-import { products } from "@/constants/products";
+// import { products } from "@/constants/products";
 
+interface Props {
+	products: any[];
+}
 
-export default function GridList() {
+export default function GridList(props: Props) {
+	const { products } = props;
     return (
 			<div className="flex flex-col w-full relative">
 				<motion.div
