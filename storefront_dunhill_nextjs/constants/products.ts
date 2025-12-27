@@ -103,3 +103,72 @@ export const ClothingProducts: Product[] = [
 			"This cotton cashmere cardigan is finished with a ribbed waistband and cuffs. ",
 	},
 ];
+
+
+export const VariantOptions = [
+	{
+		title: "Color",
+		values: [
+			{
+				id: "1",
+				name: "Black",
+				value: "Black",
+			},
+			{
+				id: "2",
+				name: "Red",
+				value: "Red",
+			},
+			{
+				id: "3",
+				name: "Blue",
+				value: "Blue",
+			},
+		],
+	},
+	{
+		title: "Size",
+		values: [
+			{
+				id: "1",
+				name: "38",
+				value: "38",
+			},
+			{
+				id: "2",
+				name: "39",
+				value: "39",
+			},
+			{
+				id: "3",
+				name: "40",
+				value: "40",
+			},
+			{
+				id: "4",
+				name: "41",
+				value: "41",
+			},
+			{
+				id: "5",
+				name: "42",
+				value: "42",
+			},
+		],
+	},
+];
+
+export const VariantItems = [
+	{
+		id: "1",
+		title: "Product - Black / 38",
+		price: 100,
+		options: ["Color", "Size"],
+		values: [
+			{
+				
+				
+			}
+		],
+	},
+];

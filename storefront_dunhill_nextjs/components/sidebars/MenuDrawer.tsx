@@ -1,5 +1,5 @@
 'use client';
-
+import { useEffect } from "react";
 import {
 	Drawer,
 	DrawerContent,
@@ -10,13 +10,20 @@ import {
 	Tabs,
 	Tab,
 } from "@heroui/react";
-import { FaBars } from "react-icons/fa6";
 import Link from "next/link";
 import { DrawerMenu, RightMenu } from "@/constants/menu/header";
 import { useSidebarMenu } from "@/stores/header";
+import { usePathname } from "next/navigation";
 
 export default function MenuDrawer() {
 	const { isOpen, onOpen, onClose, onOpenChange } = useSidebarMenu();
+	const pathname = usePathname();
+
+	useEffect(() => {
+		// close drawer when pathname changes
+		onClose();
+	}, [pathname]);
+
 	return (
 		<Drawer
 			placement="left"

@@ -18,19 +18,19 @@ export const LeftMenu = [
 ];
 
 export const RightMenu = [
-    {
-        href: "/account",
-        label: "Account",
-    },
-    {
-        href: "/wishlist",
-        label: "Wishlist",
-    },
-    {
-        href: "/cart",
-        label: "Cart",
-    },
-]
+	{
+		href: "/accounts/login",
+		label: "Account",
+	},
+	{
+		href: "/wishlist",
+		label: "Wishlist",
+	},
+	{
+		href: "/cart",
+		label: "Cart",
+	},
+];
 
 export const DrawerMenu = [
 	{
