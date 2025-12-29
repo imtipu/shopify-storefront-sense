@@ -28,16 +28,16 @@ export default function MainMenu(props: Props) {
                         ? new URL(item.url).pathname
                         : item.url;
                     return (
-                        <MotionNavLink
-                            initial={{opacity: 0, y: -5}}
-                            animate={{opacity: 1, y: 0}}
-                            transition={{duration: 0.2, }}
-                            to={item.url}
-                            className={activeLinkClass}
-                            key={index}
-                        >
-                            {item.title}
-                        </MotionNavLink>
+                      <MotionNavLink
+                        initial={{opacity: 0, y: -5}}
+                        animate={{opacity: 1, y: 0}}
+                        transition={{duration: 0.2}}
+                        to={url}
+                        className={activeLinkClass}
+                        key={index}
+                      >
+                        {item.title}
+                      </MotionNavLink>
                     );
                 })}
         </nav>
@@ -53,11 +53,11 @@ function activeLinkClass({
   isPending: boolean;
 }) {
   let className =
-    'header-menu-item text-sm px-2 py-3 no-underline hover:no-underline hover:text-red-500';
+    'header-menu-item text-sm px-2 py-3 transition-all duration-200 ease-in-out tracking-wide hover:text-zinc-800 hover:scale-105';
   if (isActive) {
-    className += ' font-medium text-red-500';
+    className += ' font-medium text-zinc-800';
   } else {
-    className += ' font-light text-zinc-500';
+    className += ' font-light text-zinc-600';
   }
   if (isPending) {
     className += ' text-gray-500';

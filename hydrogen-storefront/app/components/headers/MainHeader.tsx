@@ -18,7 +18,9 @@ import {
   useOptimisticCart,
 } from '@shopify/hydrogen';
 
-import {FaCircleUser, FaRegCircleUser} from 'react-icons/fa6';
+import { FaCircleUser, FaRegCircleUser } from 'react-icons/fa6';
+import {IoSearchSharp} from 'react-icons/io5';
+
 
 import MainMenu from './MainMenu';
 
@@ -52,9 +54,9 @@ export const CartBadge = ({count}: {count: number | null}) => {
                 url: window.location.href || '',
               } as CartViewPayload);
             }}
-            className="flex gap-0.5 items-center justify-center p-2 cursor-pointer"
+            className="flex gap-0.5 items-center justify-center p-2 cursor-pointer text-zinc-600 hover:text-zinc-800"
           >
-            <FaCartShopping />
+            <FaCartShopping className='w-5 h-5'/>
             {count === null ? <sup>&nbsp;</sup> : <sup>{count}</sup>}
           </MotionNavLink>
         );
@@ -81,20 +83,33 @@ function CartBanner() {
 
 export default function MainHeader(props: Props) {
   const {header, cart, publicStoreDomain, isLoggedIn} = props;
-  const {menu, shop} = header;
+  const { menu, shop } = header;
+  const {open} = useAside();
 
   return (
-    <header className="flex flex-col w-full justify-center items-center bg-gradient-to-b from-white to-gray-100">
+    <header className="flex flex-col w-full justify-center items-center">
       <div className="flex flex-col w-full max-w-6xl">
         <div className="grid grid-cols-3 w-full h-16">
-          <div className="flex flex-col items-start justify-center">
-            <motion.button
-              initial={{opacity: 0, x: -10}}
-              animate={{opacity: 1, x: 0}}
-              transition={{duration: 0.5}}
-              className="p-2 cursor-pointer">
-              <FaBars />
-            </motion.button>
+          <div className="flex items-center justify-start">
+            <div className="flex items-center">
+              <motion.button
+                initial={{opacity: 0, x: -10}}
+                animate={{opacity: 1, x: 0}}
+                transition={{duration: 0.5}}
+                className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700"
+              >
+                <FaBars className="w-5 h-5" />
+              </motion.button>
+              <motion.button
+                initial={{opacity: 0, x: -10}}
+                animate={{opacity: 1, x: 0}}
+                transition={{duration: 0.5}}
+                className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700"
+                onClick={() => open('search')}
+              >
+                <IoSearchSharp className="w-5 h-5" />
+              </motion.button>
+            </div>
           </div>
           <div className="flex flex-col items-center justify-center">
             <MotionNavLink
@@ -108,16 +123,21 @@ export default function MainHeader(props: Props) {
             </MotionNavLink>
           </div>
           <div className="flex flex-col items-end justify-center">
-            <div
-              className="flex items-center">
+            <div className="flex items-center">
               <NavLink
                 prefetch="intent"
                 to="/account"
-                className="p-2 cursor-pointer"
+                className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700"
               >
                 <Suspense fallback="Sign in">
                   <Await resolve={isLoggedIn} errorElement="Sign in">
-                    {(isLoggedIn) => (isLoggedIn ? <FaCircleUser /> : <FaRegCircleUser />)}
+                    {(isLoggedIn) =>
+                      isLoggedIn ? (
+                        <FaCircleUser className="w-5 h-5" />
+                      ) : (
+                        <FaRegCircleUser className="w-5 h-5" />
+                      )
+                    }
                   </Await>
                 </Suspense>
               </NavLink>
