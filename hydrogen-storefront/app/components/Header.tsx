@@ -79,12 +79,12 @@ export function HeaderMenu({
             : item.url;
         return (
           <NavLink
-            className="header-menu-item"
+            className={activeLinkClass}
             end
             key={item.id}
             onClick={close}
             prefetch="intent"
-            style={activeLinkStyle}
+            // style={activeLinkStyle}
             to={url}
           >
             {item.title}
@@ -217,6 +217,26 @@ const FALLBACK_HEADER_MENU = {
   ],
 };
 
+function activeLinkClass({
+  isActive,
+  isPending,
+}: {
+  isActive: boolean;
+  isPending: boolean;
+}) {
+  let className =
+    'header-menu-item text-sm no-underline hover:no-underline hover:text-red-500';
+  if (isActive) {
+    className += ' font-medium text-red-500';
+  } else {
+    className += ' font-light text-zinc-500';
+  }
+  if (isPending) {
+    className += ' text-gray-500';
+  }
+  return className;
+}
+
 function activeLinkStyle({
   isActive,
   isPending,
@@ -225,7 +245,7 @@ function activeLinkStyle({
   isPending: boolean;
 }) {
   return {
-    fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'black',
+    // fontWeight: isActive ? 'font-medium' : undefined,
+    // color: isPending ? 'grey' : 'black',
   };
 }
