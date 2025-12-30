@@ -59,15 +59,25 @@ function loadDeferredData({context}: Route.LoaderArgs) {
   };
 }
 
+import Newsletter from '~/components/sections/Newsletter';
+
+// ... (existing imports)
+
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
-    <div className="flex flex-col w-full">
-      {/* <MainBanner /> */}
-      {/* <RecommendedProducts products={data.recommendedProducts} /> */}
-      {/* <FeaturedCollection collection={data.featuredCollection} />
-      <RecommendedProducts products={data.recommendedProducts} /> */}
-      <FeaturedCollections />
+    <div className="flex flex-col w-full gap-0">
+      <MainBanner />
+
+      <div className="py-10 bg-white">
+        <FeaturedCollections />
+      </div>
+
+      <div className="w-full bg-zinc-50/50">
+        <RecommendedProducts products={data.recommendedProducts} />
+      </div>
+
+      <Newsletter />
     </div>
   );
 }

@@ -17,7 +17,9 @@ import {
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
 import {HeaderMenu} from '~/components/headers/HeaderMenu';
 import {AnnouncementBar} from '~/components/AnnouncementBar';
+import {StickyHeaderWrapper} from '~/components/StickyHeaderWrapper';
 import MainHeader from '~/components/headers/MainHeader';
+import {QuickViewModal} from './products/QuickViewModal';
 
 interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -38,15 +40,20 @@ export function PageLayout({
 }: PageLayoutProps) {
   return (
     <Aside.Provider>
-      <AnnouncementBar />
-      {header && (
-        <MainHeader
-          header={header}
-          cart={cart}
-          isLoggedIn={isLoggedIn}
-          publicStoreDomain={publicStoreDomain}
-        />
-      )}
+      <QuickViewModal />
+      <StickyHeaderWrapper>
+        <AnnouncementBar />
+        {header && (
+          <MainHeader
+            header={header}
+            cart={cart}
+            isLoggedIn={isLoggedIn}
+            publicStoreDomain={publicStoreDomain}
+          />
+        )}
+      </StickyHeaderWrapper>
+      {/* Spacer for fixed header */}
+      <div className="h-[120px] w-full" />
       <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
