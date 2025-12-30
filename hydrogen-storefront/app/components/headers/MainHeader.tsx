@@ -24,6 +24,7 @@ import {useSearchStore} from '~/stores/search';
 import MainMenu from './MainMenu';
 import MobileMenu from './MobileMenu';
 import SearchBar from '~/components/search/SearchBar';
+import { useCartDrawer } from '~/stores/cart';
 
 interface Props {
   header: HeaderQuery;
@@ -34,7 +35,8 @@ interface Props {
 
 export const CartBadge = ({count}: {count: number | null}) => {
   const {open} = useAside();
-  const {publish, shop, cart, prevCart} = useAnalytics();
+  const { publish, shop, cart, prevCart } = useAnalytics();
+  const {openCart} = useCartDrawer();
 
   return (
     <Await resolve={cart}>
@@ -47,7 +49,8 @@ export const CartBadge = ({count}: {count: number | null}) => {
             to="/cart"
             onClick={(e) => {
               e.preventDefault();
-              open('cart');
+              // open('cart');
+              openCart();
               publish('cart_viewed', {
                 cart,
                 prevCart,
@@ -88,9 +91,10 @@ export default function MainHeader(props: Props) {
   const {open} = useAside();
   const {isOpen: isSearchOpen, setOpen: setSearchOpen} = useSearchStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const {openCart} = useCartDrawer();
 
   return (
-    <header className="flex flex-col w-full justify-center items-center relative z-20 bg-white/80 backdrop-blur-md">
+    <header className="flex flex-col w-full justify-center items-center relative z-40 bg-white/80 backdrop-blur-md">
       <div className="flex flex-col w-full container relative">
         <div className="grid grid-cols-3 w-full h-16 px-4 md:px-0">
           <div className="flex items-center justify-start">

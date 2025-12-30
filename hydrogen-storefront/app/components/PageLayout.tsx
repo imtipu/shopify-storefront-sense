@@ -21,6 +21,8 @@ import {StickyHeaderWrapper} from '~/components/StickyHeaderWrapper';
 import MainHeader from '~/components/headers/MainHeader';
 import {QuickViewModal} from './products/QuickViewModal';
 import MainFooter from './footers/MainFooter';
+import CartDrawer from './cart/CartDrawer';
+import {useCartDrawer} from '~/stores/cart';
 
 interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -39,6 +41,7 @@ export function PageLayout({
   isLoggedIn,
   publicStoreDomain,
 }: PageLayoutProps) {
+  // const {isOpen: isCartDrawerOpen} = useCartDrawer();
   return (
     <Aside.Provider>
       <QuickViewModal />
@@ -53,9 +56,10 @@ export function PageLayout({
           />
         )}
       </StickyHeaderWrapper>
+      <CartDrawer cart={cart} />
       {/* Spacer for fixed header */}
       {/* <div className="h-[120px] w-full" /> */}
-      <CartAside cart={cart} />
+      {/* <CartAside cart={cart} /> */}
       {/* <SearchAside /> */}
       {/* <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} /> */}
       {/* {header && (

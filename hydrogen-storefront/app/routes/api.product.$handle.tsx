@@ -26,7 +26,7 @@ export async function loader({params, context, request}: LoaderFunctionArgs) {
 }
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
-  fragment ProductVariant on ProductVariant {
+  fragment ApiProductVariant on ProductVariant {
     availableForSale
     compareAtPrice {
       amount
@@ -63,7 +63,7 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
 ` as const;
 
 const PRODUCT_FRAGMENT = `#graphql
-  fragment Product on Product {
+  fragment ApiProduct on Product {
     id
     title
     vendor
@@ -77,7 +77,7 @@ const PRODUCT_FRAGMENT = `#graphql
       optionValues {
         name
         firstSelectableVariant {
-          ...ProductVariant
+          ...ApiProductVariant
         }
         swatch {
           color
@@ -90,24 +90,24 @@ const PRODUCT_FRAGMENT = `#graphql
       }
     }
     selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {
-      ...ProductVariant
+      ...ApiProductVariant
     }
     adjacentVariants (selectedOptions: $selectedOptions) {
-      ...ProductVariant
+      ...ApiProductVariant
     }
   }
   ${PRODUCT_VARIANT_FRAGMENT}
 ` as const;
 
 const PRODUCT_QUERY = `#graphql
-  query Product(
+  query ApiProduct(
     $country: CountryCode
     $handle: String!
     $language: LanguageCode
     $selectedOptions: [SelectedOptionInput!]!
   ) @inContext(country: $country, language: $language) {
     product(handle: $handle) {
-      ...Product
+      ...ApiProduct
     }
   }
   ${PRODUCT_FRAGMENT}

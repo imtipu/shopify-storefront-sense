@@ -59,7 +59,7 @@ export default function Collection() {
         </div>
         <PaginatedResourceSection<CollectionItemFragment>
           connection={products}
-          resourcesClassName="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+          resourcesClassName="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-x-15 xl:gap-y-10 w-full"
         >
           {({node: product, index}) => (
             <ProductItem
