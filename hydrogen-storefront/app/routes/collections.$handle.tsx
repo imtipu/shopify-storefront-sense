@@ -3,7 +3,7 @@ import type {Route} from './+types/collections.$handle';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
-import {ProductItem} from '~/components/ProductItem';
+import ProductGridItem from '~/components/snippets/ProductGridItem';
 import type {ProductItemFragment} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -77,7 +77,7 @@ export default function Collection() {
         resourcesClassName="products-grid"
       >
         {({node: product, index}) => (
-          <ProductItem
+          <ProductGridItem
             key={product.id}
             product={product}
             loading={index < 8 ? 'eager' : undefined}
