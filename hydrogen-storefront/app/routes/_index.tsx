@@ -69,15 +69,17 @@ export default function Homepage() {
     <div className="flex flex-col w-full gap-0">
       <MainBanner />
 
-      <div className="py-10 bg-white">
+      <div className="py-10 flex flex-col w-full">
         <FeaturedCollections />
       </div>
 
-      <div className="w-full bg-zinc-50/50">
-        <RecommendedProducts products={data.recommendedProducts} />
-      </div>
+      {data.recommendedProducts && (
+        <div className="flex flex-col w-full">
+          <RecommendedProducts products={data.recommendedProducts} />
+        </div>
+      )}
 
-      <Newsletter />
+      {/* <Newsletter /> */}
     </div>
   );
 }

@@ -20,6 +20,7 @@ import {AnnouncementBar} from '~/components/AnnouncementBar';
 import {StickyHeaderWrapper} from '~/components/StickyHeaderWrapper';
 import MainHeader from '~/components/headers/MainHeader';
 import {QuickViewModal} from './products/QuickViewModal';
+import MainFooter from './footers/MainFooter';
 
 interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -41,8 +42,8 @@ export function PageLayout({
   return (
     <Aside.Provider>
       <QuickViewModal />
+      <AnnouncementBar />
       <StickyHeaderWrapper>
-        <AnnouncementBar />
         {header && (
           <MainHeader
             header={header}
@@ -53,10 +54,10 @@ export function PageLayout({
         )}
       </StickyHeaderWrapper>
       {/* Spacer for fixed header */}
-      <div className="h-[120px] w-full" />
+      {/* <div className="h-[120px] w-full" /> */}
       <CartAside cart={cart} />
-      <SearchAside />
-      <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} />
+      {/* <SearchAside /> */}
+      {/* <MobileMenuAside header={header} publicStoreDomain={publicStoreDomain} /> */}
       {/* {header && (
         <Header
           header={header}
@@ -65,12 +66,13 @@ export function PageLayout({
           publicStoreDomain={publicStoreDomain}
         />
       )} */}
-      <main>{children}</main>
-      <Footer
+      <main className="flex-1 min-h-[400px]">{children}</main>
+      {/* <Footer
         footer={footer}
         header={header}
         publicStoreDomain={publicStoreDomain}
-      />
+      /> */}
+      <MainFooter />
     </Aside.Provider>
   );
 }

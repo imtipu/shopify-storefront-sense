@@ -14,7 +14,7 @@ export default function RecommendedProducts(props: Props) {
   const {products} = props;
   return (
     <div className="flex flex-col w-full justify-center items-center">
-      <div className="flex flex-col items-start justify-center px-3 xl:px-0 py-10 max-w-6xl">
+      <div className="flex flex-col items-start justify-center px-3 xl:px-0 py-10 container">
         <h2 className="text-2xl text-zinc-700 font-medium tracking-wide leading-16">
           Shop our most trusted formulas
         </h2>

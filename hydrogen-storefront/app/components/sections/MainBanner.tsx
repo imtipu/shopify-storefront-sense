@@ -6,7 +6,7 @@ import {motion} from 'motion/react';
 export default function MainBanner() {
   return (
     <div className="flex flex-col items-center justify-center w-full relative">
-      <div className="grid grid-cols-1 md:grid-cols-2 w-full h-full max-w-6xl relative py-10 px-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 w-full h-full container relative py-10 px-5">
         <div className="flex flex-col items-center md:items-end justify-center w-full h-full order-last md:order-first px-8 md:px-0">
           <div className="flex flex-col justify-center px-10 py-12 rounded-3xl bg-linear-to-br from-lime-200 via-yellow-100 to-lime-200 z-20 gap-6 relative flex-wrap w-full md:max-w-xs lg:max-w-sm min-h-[200px] lg:min-h-[600px] -mt-15 md:mt-0">
             <motion.h3

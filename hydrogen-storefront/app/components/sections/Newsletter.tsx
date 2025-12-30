@@ -5,7 +5,7 @@ export default function Newsletter() {
   return (
     <section className="w-full py-20 bg-zinc-900 text-white relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-lifestyle-1_large.png?v=1613161131')] bg-cover bg-center opacity-10 mix-blend-overlay" />
-      <div className="max-w-6xl mx-auto px-4 relative z-10 text-center">
+      <div className="container mx-auto px-4 relative z-10 text-center">
         <motion.div
           initial={{opacity: 0, y: 20}}
           whileInView={{opacity: 1, y: 0}}

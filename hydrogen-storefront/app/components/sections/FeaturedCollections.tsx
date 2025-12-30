@@ -7,7 +7,7 @@ import CollectionImage3Src from '~/assets/images/collection-3.webp';
 export default function FeaturedCollections() {
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      <div className="flex flex-col items-start justify-center px-3 xl:px-0 py-10 w-full max-w-6xl">
+      <div className="flex flex-col items-start justify-center px-3 xl:px-0 py-10 w-full container">
         <h2 className="text-2xl text-zinc-700 font-medium tracking-wide mb-3">
           Shop our most trusted formulas
         </h2>

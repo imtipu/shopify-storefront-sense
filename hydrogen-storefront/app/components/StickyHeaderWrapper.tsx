@@ -24,7 +24,7 @@ export function StickyHeaderWrapper({children}: {children: React.ReactNode}) {
         }}
         animate={hidden ? 'hidden' : 'visible'}
         transition={{duration: 0.3, ease: 'easeInOut'}}
-        className="fixed top-0 left-0 right-0 z-50 flex flex-col w-full"
+        className="sticky top-0 left-0 right-0 z-20 flex flex-col w-full"
       >
         {children}
       </motion.div>

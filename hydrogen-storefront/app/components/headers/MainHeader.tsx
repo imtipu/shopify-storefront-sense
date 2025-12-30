@@ -90,64 +90,62 @@ export default function MainHeader(props: Props) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="flex flex-col w-full justify-center items-center relative z-40 bg-white/80 backdrop-blur-md">
-      <div className="flex flex-col w-full max-w-6xl relative">
-        <div className="w-full border-b border-zinc-100/50">
-          <div className="grid grid-cols-3 w-full h-16 px-4 md:px-0">
-            <div className="flex items-center justify-start">
-              <div className="flex items-center">
-                <motion.button
-                  initial={{opacity: 0, x: -10}}
-                  animate={{opacity: 1, x: 0}}
-                  transition={{duration: 0.5}}
-                  className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700 md:hidden"
-                  onClick={() => setIsMobileMenuOpen(true)}
-                >
-                  <DynamicIcon name="menu" size={20} />
-                </motion.button>
-                <motion.button
-                  initial={{opacity: 0, x: -10}}
-                  animate={{opacity: 1, x: 0}}
-                  transition={{duration: 0.5}}
-                  className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700"
-                  onClick={() => setSearchOpen(!isSearchOpen)}
-                >
-                  <DynamicIcon name="search" size={20} />
-                </motion.button>
-              </div>
-            </div>
-            <div className="flex flex-col items-center justify-center">
-              <MotionNavLink
-                initial={{opacity: 0, y: -10}}
-                animate={{opacity: 1, y: 0}}
+    <header className="flex flex-col w-full justify-center items-center relative z-20 bg-white/80 backdrop-blur-md">
+      <div className="flex flex-col w-full container relative">
+        <div className="grid grid-cols-3 w-full h-16 px-4 md:px-0">
+          <div className="flex items-center justify-start">
+            <div className="flex items-center">
+              <motion.button
+                initial={{opacity: 0, x: -10}}
+                animate={{opacity: 1, x: 0}}
                 transition={{duration: 0.5}}
-                to="/"
-                className="text-lg font-bold cursor-pointer uppercase tracking-wider"
+                className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700 md:hidden"
+                onClick={() => setIsMobileMenuOpen(true)}
               >
-                {shop.name}
-              </MotionNavLink>
+                <DynamicIcon name="menu" size={20} />
+              </motion.button>
+              <motion.button
+                initial={{opacity: 0, x: -10}}
+                animate={{opacity: 1, x: 0}}
+                transition={{duration: 0.5}}
+                className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700"
+                onClick={() => setSearchOpen(!isSearchOpen)}
+              >
+                <DynamicIcon name="search" size={20} />
+              </motion.button>
             </div>
-            <div className="flex flex-col items-end justify-center">
-              <div className="flex items-center">
-                <NavLink
-                  prefetch="intent"
-                  to="/account"
-                  className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700"
-                >
-                  <Suspense fallback="Sign in">
-                    <Await resolve={isLoggedIn} errorElement="Sign in">
-                      {(isLoggedIn) =>
-                        isLoggedIn ? (
-                          <DynamicIcon name="user" size={20} />
-                        ) : (
-                          <DynamicIcon name="user" size={20} />
-                        )
-                      }
-                    </Await>
-                  </Suspense>
-                </NavLink>
-                <CartToggle cart={cart} />
-              </div>
+          </div>
+          <div className="flex flex-col items-center justify-center">
+            <MotionNavLink
+              initial={{opacity: 0, y: -10}}
+              animate={{opacity: 1, y: 0}}
+              transition={{duration: 0.5}}
+              to="/"
+              className="text-lg font-bold cursor-pointer uppercase tracking-wider"
+            >
+              {shop.name}
+            </MotionNavLink>
+          </div>
+          <div className="flex flex-col items-end justify-center">
+            <div className="flex items-center">
+              <NavLink
+                prefetch="intent"
+                to="/account"
+                className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700"
+              >
+                <Suspense fallback="Sign in">
+                  <Await resolve={isLoggedIn} errorElement="Sign in">
+                    {(isLoggedIn) =>
+                      isLoggedIn ? (
+                        <DynamicIcon name="user" size={20} />
+                      ) : (
+                        <DynamicIcon name="user" size={20} />
+                      )
+                    }
+                  </Await>
+                </Suspense>
+              </NavLink>
+              <CartToggle cart={cart} />
             </div>
           </div>
         </div>

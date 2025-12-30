@@ -2,7 +2,7 @@ import {motion} from 'motion/react';
 
 export function AnnouncementBar() {
   return (
-    <div className="announcement-bar bg-gradient-to-br from-lime-200 via-yellow-100 to-lime-200 justify-center items-center flex flex-col overflow-hidden relative z-50">
+    <div className="announcement-bar bg-linear-to-br from-lime-200 via-yellow-100 to-lime-200 justify-center items-center flex flex-col overflow-hidden relative">
       <div className="flex flex-col gap-2 justify-center items-center text-center py-2">
         <motion.p
           initial={{opacity: 0, y: -10}}
