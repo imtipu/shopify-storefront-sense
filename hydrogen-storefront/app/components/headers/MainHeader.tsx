@@ -18,12 +18,18 @@ import {
   useOptimisticCart,
 } from '@shopify/hydrogen';
 
-import {DynamicIcon} from 'lucide-react/dynamic';
+// import {DynamicIcon} from 'lucide-react/dynamic';
 import {useState} from 'react';
 import {useSearchStore} from '~/stores/search';
 import MainMenu from './MainMenu';
 import MobileMenu from './MobileMenu';
 import SearchBar from '~/components/search/SearchBar';
+import {
+  ShoppingBagIcon,
+  UserIcon,
+  MenuIcon,
+  SearchIcon,
+} from 'lucide-react';
 import { useCartDrawer } from '~/stores/cart';
 
 interface Props {
@@ -60,7 +66,7 @@ export const CartBadge = ({count}: {count: number | null}) => {
             }}
             className="flex gap-0.5 items-center justify-center p-2 cursor-pointer text-zinc-600 hover:text-zinc-800"
           >
-            <DynamicIcon name="shopping-bag" size={18} />
+            <ShoppingBagIcon size={18} />
             {count === null ? <sup>&nbsp;</sup> : <sup>{count}</sup>}
           </MotionNavLink>
         );
@@ -106,7 +112,7 @@ export default function MainHeader(props: Props) {
                 className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700 md:hidden"
                 onClick={() => setIsMobileMenuOpen(true)}
               >
-                <DynamicIcon name="menu" size={20} />
+                <MenuIcon size={20} />
               </motion.button>
               <motion.button
                 initial={{opacity: 0, x: -10}}
@@ -115,7 +121,7 @@ export default function MainHeader(props: Props) {
                 className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700"
                 onClick={() => setSearchOpen(!isSearchOpen)}
               >
-                <DynamicIcon name="search" size={20} />
+                <SearchIcon size={20} />
               </motion.button>
             </div>
           </div>
@@ -141,9 +147,9 @@ export default function MainHeader(props: Props) {
                   <Await resolve={isLoggedIn} errorElement="Sign in">
                     {(isLoggedIn) =>
                       isLoggedIn ? (
-                        <DynamicIcon name="user" size={20} />
+                        <UserIcon size={20} />
                       ) : (
-                        <DynamicIcon name="user" size={20} />
+                        <UserIcon size={20} />
                       )
                     }
                   </Await>
