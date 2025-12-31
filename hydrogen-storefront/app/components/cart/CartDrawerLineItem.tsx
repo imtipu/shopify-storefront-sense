@@ -1,33 +1,23 @@
 import type {CartLineUpdateInput} from '@shopify/hydrogen/storefront-api-types';
-import type {CartLayout} from '~/components/CartMain';
 import {CartForm, Image, type OptimisticCartLine} from '@shopify/hydrogen';
 import {useVariantUrl} from '~/lib/variants';
 import {Link} from 'react-router';
-import {ProductPrice} from './ProductPrice';
-import {useAside} from './Aside';
+import {ProductPrice} from '~/components/ProductPrice';
+
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
-import { MinusIcon, PlusIcon } from 'lucide-react';
 
 type CartLine = OptimisticCartLine<CartApiQueryFragment>;
 
-/**
- * A single line item in the cart. It displays the product image, title, price.
- * It also provides controls to update the quantity or remove the line item.
- */
-export function CartLineItem({
-  layout,
-  line,
-}: {
-  layout: CartLayout;
+interface Props {
   line: CartLine;
-}) {
+}
+
+export default function CartDrawerLineItem({line}: Props) {
   const {id, merchandise} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
-  const {close} = useAside();
-
   return (
-    <li key={id} className="cart-line">
+    <div className="flex w-full">
       {image && (
         <Image
           alt={title}
@@ -40,15 +30,7 @@ export function CartLineItem({
       )}
 
       <div>
-        <Link
-          prefetch="intent"
-          to={lineItemUrl}
-          onClick={() => {
-            if (layout === 'aside') {
-              close();
-            }
-          }}
-        >
+        <Link prefetch="intent" to={lineItemUrl}>
           <p>
             <strong>{product.title}</strong>
           </p>
@@ -65,7 +47,7 @@ export function CartLineItem({
         </ul>
         <CartLineQuantity line={line} />
       </div>
-    </li>
+    </div>
   );
 }
 
@@ -82,35 +64,30 @@ function CartLineQuantity({line}: {line: CartLine}) {
 
   return (
     <div className="cart-line-quantity flex flex-col">
-      <p className="text-sm text-zinc-500 font-medium tracking-wide">
-        Quantity: {quantity} &nbsp;&nbsp;
-      </p>
-      <div className="flex items-center w-[100px] border rounded-md h-8">
+      <p className="text-xs">Quantity: {quantity}</p>
+      <div className="flex w-full">
         <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
           <button
             aria-label="Decrease quantity"
             disabled={quantity <= 1 || !!isOptimistic}
             name="decrease-quantity"
             value={prevQuantity}
-            className="w-7 h-full flex items-center justify-center"
           >
-            <MinusIcon size={16}/>
+            <span>&#8722; </span>
           </button>
         </CartLineUpdateButton>
-        <span className="w-full h-full text-center px-1 flex items-center justify-center border-l border-r">{quantity}</span>
+        &nbsp;
         <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
           <button
             aria-label="Increase quantity"
             name="increase-quantity"
             value={nextQuantity}
             disabled={!!isOptimistic}
-            className="w-7 h-full flex items-center justify-center"
           >
-            <PlusIcon size={16}/>
+            <span>&#43;</span>
           </button>
         </CartLineUpdateButton>
-      </div>
-      <div>
+        &nbsp;
         <CartLineRemoveButton lineIds={[lineId]} disabled={!!isOptimistic} />
       </div>
     </div>

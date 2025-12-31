@@ -38,9 +38,10 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div>
-      <a href={checkoutUrl} target="_self">
-        <p>Continue to Checkout &rarr;</p>
+    <div className="flex flex-col w-full px-2 py-3">
+      <a href={checkoutUrl} target="_self"
+      className="flex flex-col w-full items-center justify-center text-center px-3 py-2 bg-zinc-800 rounded-sm text-white">
+        Continue to Checkout &rarr;
       </a>
       <br />
     </div>
