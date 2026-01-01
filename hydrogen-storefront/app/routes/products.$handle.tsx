@@ -12,7 +12,8 @@ import {ProductPrice} from '~/components/ProductPrice';
 import {ProductImage} from '~/components/ProductImage';
 import {ProductForm} from '~/components/ProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
-import {MainProduct} from '~/components/products/MainProduct';
+import { MainProduct } from '~/components/products/MainProduct';
+import { PRODUCT_QUERY } from '~/graphql/products';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [
@@ -99,13 +100,13 @@ export default function Product() {
   const {title, descriptionHtml} = product;
 
   return (
-    <div className="flex flex-col w-full py-5">
+    <div className="flex flex-col w-full py-5 relative">
       <MainProduct
         product={product}
         selectedVariant={selectedVariant}
         productOptions={productOptions}
       />
-      <div className="product">
+      {/* <div className="product">
         <ProductImage image={selectedVariant?.image} />
         <div className="product-main">
           <h1>{title}</h1>
@@ -142,99 +143,8 @@ export default function Product() {
             ],
           }}
         />
-      </div>
+      </div> */}
     </div>
   );
 }
 
-const PRODUCT_VARIANT_FRAGMENT = `#graphql
-  fragment ProductVariant on ProductVariant {
-    availableForSale
-    compareAtPrice {
-      amount
-      currencyCode
-    }
-    id
-    image {
-      __typename
-      id
-      url
-      altText
-      width
-      height
-    }
-    price {
-      amount
-      currencyCode
-    }
-    product {
-      title
-      handle
-    }
-    selectedOptions {
-      name
-      value
-    }
-    sku
-    title
-    unitPrice {
-      amount
-      currencyCode
-    }
-  }
-` as const;
-
-const PRODUCT_FRAGMENT = `#graphql
-  fragment Product on Product {
-    id
-    title
-    vendor
-    handle
-    descriptionHtml
-    description
-    encodedVariantExistence
-    encodedVariantAvailability
-    options {
-      name
-      optionValues {
-        name
-        firstSelectableVariant {
-          ...ProductVariant
-        }
-        swatch {
-          color
-          image {
-            previewImage {
-              url
-            }
-          }
-        }
-      }
-    }
-    selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {
-      ...ProductVariant
-    }
-    adjacentVariants (selectedOptions: $selectedOptions) {
-      ...ProductVariant
-    }
-    seo {
-      description
-      title
-    }
-  }
-  ${PRODUCT_VARIANT_FRAGMENT}
-` as const;
-
-const PRODUCT_QUERY = `#graphql
-  query Product(
-    $country: CountryCode
-    $handle: String!
-    $language: LanguageCode
-    $selectedOptions: [SelectedOptionInput!]!
-  ) @inContext(country: $country, language: $language) {
-    product(handle: $handle) {
-      ...Product
-    }
-  }
-  ${PRODUCT_FRAGMENT}
-` as const;

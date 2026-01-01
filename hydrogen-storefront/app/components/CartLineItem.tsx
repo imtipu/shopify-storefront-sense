@@ -24,7 +24,7 @@ export function CartLineItem({
   const {id, merchandise} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
-  const {close} = useAside();
+  // const {close} = useAside();
 
   return (
     <li key={id} className="cart-line">
@@ -43,11 +43,6 @@ export function CartLineItem({
         <Link
           prefetch="intent"
           to={lineItemUrl}
-          onClick={() => {
-            if (layout === 'aside') {
-              close();
-            }
-          }}
         >
           <p>
             <strong>{product.title}</strong>
