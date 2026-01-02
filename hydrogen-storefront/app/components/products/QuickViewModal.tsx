@@ -9,7 +9,7 @@ import {
   getAdjacentAndFirstAvailableVariants,
   getProductOptions,
 } from '@shopify/hydrogen';
-import {DynamicIcon} from 'lucide-react/dynamic';
+import { XIcon } from 'lucide-react';
 
 export function QuickViewModal() {
   const {isQuickViewOpen, quickViewProductHandle, closeQuickView} =
@@ -49,7 +49,7 @@ export function QuickViewModal() {
                 onClick={closeQuickView}
                 className="absolute top-4 right-4 p-2 text-zinc-500 hover:text-zinc-800 z-10 bg-white/50 backdrop-blur rounded-full transition-colors"
               >
-                <DynamicIcon name="x" size={24} />
+                <XIcon size={24} />
               </button>
 
               {isLoading || !product ? (

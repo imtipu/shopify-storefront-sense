@@ -5,9 +5,9 @@ import type {
   ProductItemFragment,
   RecommendedProductFragment,
 } from 'storefrontapi.generated';
-import {DynamicIcon} from 'lucide-react/dynamic';
 import {useUIStore} from '~/stores/store';
 import {motion} from 'motion/react';
+import { EyeIcon } from 'lucide-react';
 
 interface Props {
   product:
@@ -23,7 +23,7 @@ export default function ProductGridItem(props: Props) {
 
   return (
     <div className="group flex flex-col items-center justify-start bg-white overflow-hidden rounded-xl shadow-sm hover:shadow-xl transition-shadow duration-300">
-      <div className="relative w-full aspect-[4/5] overflow-hidden bg-zinc-100">
+      <div className="relative w-full overflow-hidden bg-zinc-100">
         <NavLink
           to={`/products/${product.handle}`}
           className="w-full h-full block"
@@ -48,7 +48,7 @@ export default function ProductGridItem(props: Props) {
             }}
             className="w-full bg-white text-zinc-900 font-medium py-3 rounded-lg shadow-lg hover:bg-zinc-50 transition-colors flex items-center justify-center gap-2"
           >
-            <DynamicIcon name="eye" size={16} />
+            <EyeIcon size={16} />
             Quick View
           </button>
         </div>

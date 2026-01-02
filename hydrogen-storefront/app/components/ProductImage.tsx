@@ -1,4 +1,4 @@
-import type {ApiProductVariantFragment} from 'storefrontapi.generated';
+import type {ProductVariantFragment} from 'storefrontapi.generated';
 import { Image } from '@shopify/hydrogen';
 import { motion } from 'motion/react';
 
@@ -10,26 +10,27 @@ export function ProductImage({
   className,
   onClick,
 }: {
-  image: ApiProductVariantFragment['image'];
-    baseClassName?: string;
+  image: ProductVariantFragment['image'];
+  baseClassName?: string;
   className?: string;
-    onClick?: (image: ApiProductVariantFragment['image']) => void;
+  onClick?: (image: ProductVariantFragment['image']) => void;
 }) {
   if (!image) {
     return <div className="product-image" />;
   }
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className={baseClassName + ' product-image flex flex-col relative'}>
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}
+      exit={{opacity: 0}}
+      transition={{duration: 0.5}}
+      className={baseClassName + ' product-image flex flex-col relative'}
+    >
       <MotionImage
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
+        exit={{opacity: 0}}
+        transition={{duration: 0.5}}
         alt={image.altText || 'Product Image'}
         aspectRatio="1/1"
         data={image}

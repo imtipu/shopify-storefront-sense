@@ -3,6 +3,267 @@
 /* eslint-disable */
 import type * as StorefrontAPI from '@shopify/hydrogen/storefront-api-types';
 
+export type ProductImagesFragment = {
+  images: {
+    nodes: Array<
+      Pick<StorefrontAPI.Image, 'id' | 'altText' | 'url' | 'width' | 'height'>
+    >;
+  };
+};
+
+export type ProductVariantFragment = Pick<
+  StorefrontAPI.ProductVariant,
+  'availableForSale' | 'id' | 'sku' | 'title'
+> & {
+  compareAtPrice?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+  >;
+  image?: StorefrontAPI.Maybe<
+    {__typename: 'Image'} & Pick<
+      StorefrontAPI.Image,
+      'id' | 'url' | 'altText' | 'width' | 'height'
+    >
+  >;
+  price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+  product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+  selectedOptions: Array<Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>>;
+  unitPrice?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+  >;
+};
+
+export type ProductFragment = Pick<
+  StorefrontAPI.Product,
+  | 'id'
+  | 'title'
+  | 'vendor'
+  | 'handle'
+  | 'descriptionHtml'
+  | 'description'
+  | 'encodedVariantExistence'
+  | 'encodedVariantAvailability'
+> & {
+  options: Array<
+    Pick<StorefrontAPI.ProductOption, 'name'> & {
+      optionValues: Array<
+        Pick<StorefrontAPI.ProductOptionValue, 'name'> & {
+          firstSelectableVariant?: StorefrontAPI.Maybe<
+            Pick<
+              StorefrontAPI.ProductVariant,
+              'availableForSale' | 'id' | 'sku' | 'title'
+            > & {
+              compareAtPrice?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+              >;
+              image?: StorefrontAPI.Maybe<
+                {__typename: 'Image'} & Pick<
+                  StorefrontAPI.Image,
+                  'id' | 'url' | 'altText' | 'width' | 'height'
+                >
+              >;
+              price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+              product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+              selectedOptions: Array<
+                Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+              >;
+              unitPrice?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+              >;
+            }
+          >;
+          swatch?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.ProductOptionValueSwatch, 'color'> & {
+              image?: StorefrontAPI.Maybe<{
+                previewImage?: StorefrontAPI.Maybe<
+                  Pick<StorefrontAPI.Image, 'url'>
+                >;
+              }>;
+            }
+          >;
+        }
+      >;
+    }
+  >;
+  selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+    Pick<
+      StorefrontAPI.ProductVariant,
+      'availableForSale' | 'id' | 'sku' | 'title'
+    > & {
+      compareAtPrice?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+      >;
+      image?: StorefrontAPI.Maybe<
+        {__typename: 'Image'} & Pick<
+          StorefrontAPI.Image,
+          'id' | 'url' | 'altText' | 'width' | 'height'
+        >
+      >;
+      price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+      selectedOptions: Array<
+        Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+      >;
+      unitPrice?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+      >;
+    }
+  >;
+  adjacentVariants: Array<
+    Pick<
+      StorefrontAPI.ProductVariant,
+      'availableForSale' | 'id' | 'sku' | 'title'
+    > & {
+      compareAtPrice?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+      >;
+      image?: StorefrontAPI.Maybe<
+        {__typename: 'Image'} & Pick<
+          StorefrontAPI.Image,
+          'id' | 'url' | 'altText' | 'width' | 'height'
+        >
+      >;
+      price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+      selectedOptions: Array<
+        Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+      >;
+      unitPrice?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+      >;
+    }
+  >;
+  seo: Pick<StorefrontAPI.Seo, 'description' | 'title'>;
+  images: {
+    nodes: Array<
+      Pick<StorefrontAPI.Image, 'id' | 'altText' | 'url' | 'width' | 'height'>
+    >;
+  };
+};
+
+export type ProductQueryVariables = StorefrontAPI.Exact<{
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  handle: StorefrontAPI.Scalars['String']['input'];
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+  selectedOptions:
+    | Array<StorefrontAPI.SelectedOptionInput>
+    | StorefrontAPI.SelectedOptionInput;
+}>;
+
+export type ProductQuery = {
+  product?: StorefrontAPI.Maybe<
+    Pick<
+      StorefrontAPI.Product,
+      | 'id'
+      | 'title'
+      | 'vendor'
+      | 'handle'
+      | 'descriptionHtml'
+      | 'description'
+      | 'encodedVariantExistence'
+      | 'encodedVariantAvailability'
+    > & {
+      options: Array<
+        Pick<StorefrontAPI.ProductOption, 'name'> & {
+          optionValues: Array<
+            Pick<StorefrontAPI.ProductOptionValue, 'name'> & {
+              firstSelectableVariant?: StorefrontAPI.Maybe<
+                Pick<
+                  StorefrontAPI.ProductVariant,
+                  'availableForSale' | 'id' | 'sku' | 'title'
+                > & {
+                  compareAtPrice?: StorefrontAPI.Maybe<
+                    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+                  >;
+                  image?: StorefrontAPI.Maybe<
+                    {__typename: 'Image'} & Pick<
+                      StorefrontAPI.Image,
+                      'id' | 'url' | 'altText' | 'width' | 'height'
+                    >
+                  >;
+                  price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+                  product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+                  selectedOptions: Array<
+                    Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+                  >;
+                  unitPrice?: StorefrontAPI.Maybe<
+                    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+                  >;
+                }
+              >;
+              swatch?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.ProductOptionValueSwatch, 'color'> & {
+                  image?: StorefrontAPI.Maybe<{
+                    previewImage?: StorefrontAPI.Maybe<
+                      Pick<StorefrontAPI.Image, 'url'>
+                    >;
+                  }>;
+                }
+              >;
+            }
+          >;
+        }
+      >;
+      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+        Pick<
+          StorefrontAPI.ProductVariant,
+          'availableForSale' | 'id' | 'sku' | 'title'
+        > & {
+          compareAtPrice?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+          >;
+          image?: StorefrontAPI.Maybe<
+            {__typename: 'Image'} & Pick<
+              StorefrontAPI.Image,
+              'id' | 'url' | 'altText' | 'width' | 'height'
+            >
+          >;
+          price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+          product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+          selectedOptions: Array<
+            Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+          >;
+          unitPrice?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+          >;
+        }
+      >;
+      adjacentVariants: Array<
+        Pick<
+          StorefrontAPI.ProductVariant,
+          'availableForSale' | 'id' | 'sku' | 'title'
+        > & {
+          compareAtPrice?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+          >;
+          image?: StorefrontAPI.Maybe<
+            {__typename: 'Image'} & Pick<
+              StorefrontAPI.Image,
+              'id' | 'url' | 'altText' | 'width' | 'height'
+            >
+          >;
+          price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+          product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+          selectedOptions: Array<
+            Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+          >;
+          unitPrice?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+          >;
+        }
+      >;
+      seo: Pick<StorefrontAPI.Seo, 'description' | 'title'>;
+      images: {
+        nodes: Array<
+          Pick<
+            StorefrontAPI.Image,
+            'id' | 'altText' | 'url' | 'width' | 'height'
+          >
+        >;
+      };
+    }
+  >;
+};
+
 export type MoneyFragment = Pick<
   StorefrontAPI.MoneyV2,
   'currencyCode' | 'amount'
@@ -379,244 +640,6 @@ export type RecommendedProductsQuery = {
       }
     >;
   };
-};
-
-export type ApiProductVariantFragment = Pick<
-  StorefrontAPI.ProductVariant,
-  'availableForSale' | 'id' | 'sku' | 'title'
-> & {
-  compareAtPrice?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-  >;
-  image?: StorefrontAPI.Maybe<
-    {__typename: 'Image'} & Pick<
-      StorefrontAPI.Image,
-      'id' | 'url' | 'altText' | 'width' | 'height'
-    >
-  >;
-  price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-  product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
-  selectedOptions: Array<Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>>;
-  unitPrice?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-  >;
-};
-
-export type ApiProductFragment = Pick<
-  StorefrontAPI.Product,
-  | 'id'
-  | 'title'
-  | 'vendor'
-  | 'handle'
-  | 'descriptionHtml'
-  | 'description'
-  | 'encodedVariantExistence'
-  | 'encodedVariantAvailability'
-> & {
-  options: Array<
-    Pick<StorefrontAPI.ProductOption, 'name'> & {
-      optionValues: Array<
-        Pick<StorefrontAPI.ProductOptionValue, 'name'> & {
-          firstSelectableVariant?: StorefrontAPI.Maybe<
-            Pick<
-              StorefrontAPI.ProductVariant,
-              'availableForSale' | 'id' | 'sku' | 'title'
-            > & {
-              compareAtPrice?: StorefrontAPI.Maybe<
-                Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-              >;
-              image?: StorefrontAPI.Maybe<
-                {__typename: 'Image'} & Pick<
-                  StorefrontAPI.Image,
-                  'id' | 'url' | 'altText' | 'width' | 'height'
-                >
-              >;
-              price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-              product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
-              selectedOptions: Array<
-                Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
-              >;
-              unitPrice?: StorefrontAPI.Maybe<
-                Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-              >;
-            }
-          >;
-          swatch?: StorefrontAPI.Maybe<
-            Pick<StorefrontAPI.ProductOptionValueSwatch, 'color'> & {
-              image?: StorefrontAPI.Maybe<{
-                previewImage?: StorefrontAPI.Maybe<
-                  Pick<StorefrontAPI.Image, 'url'>
-                >;
-              }>;
-            }
-          >;
-        }
-      >;
-    }
-  >;
-  selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
-    Pick<
-      StorefrontAPI.ProductVariant,
-      'availableForSale' | 'id' | 'sku' | 'title'
-    > & {
-      compareAtPrice?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-      >;
-      image?: StorefrontAPI.Maybe<
-        {__typename: 'Image'} & Pick<
-          StorefrontAPI.Image,
-          'id' | 'url' | 'altText' | 'width' | 'height'
-        >
-      >;
-      price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-      product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
-      selectedOptions: Array<
-        Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
-      >;
-      unitPrice?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-      >;
-    }
-  >;
-  adjacentVariants: Array<
-    Pick<
-      StorefrontAPI.ProductVariant,
-      'availableForSale' | 'id' | 'sku' | 'title'
-    > & {
-      compareAtPrice?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-      >;
-      image?: StorefrontAPI.Maybe<
-        {__typename: 'Image'} & Pick<
-          StorefrontAPI.Image,
-          'id' | 'url' | 'altText' | 'width' | 'height'
-        >
-      >;
-      price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-      product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
-      selectedOptions: Array<
-        Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
-      >;
-      unitPrice?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-      >;
-    }
-  >;
-};
-
-export type ApiProductQueryVariables = StorefrontAPI.Exact<{
-  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
-  handle: StorefrontAPI.Scalars['String']['input'];
-  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-  selectedOptions:
-    | Array<StorefrontAPI.SelectedOptionInput>
-    | StorefrontAPI.SelectedOptionInput;
-}>;
-
-export type ApiProductQuery = {
-  product?: StorefrontAPI.Maybe<
-    Pick<
-      StorefrontAPI.Product,
-      | 'id'
-      | 'title'
-      | 'vendor'
-      | 'handle'
-      | 'descriptionHtml'
-      | 'description'
-      | 'encodedVariantExistence'
-      | 'encodedVariantAvailability'
-    > & {
-      options: Array<
-        Pick<StorefrontAPI.ProductOption, 'name'> & {
-          optionValues: Array<
-            Pick<StorefrontAPI.ProductOptionValue, 'name'> & {
-              firstSelectableVariant?: StorefrontAPI.Maybe<
-                Pick<
-                  StorefrontAPI.ProductVariant,
-                  'availableForSale' | 'id' | 'sku' | 'title'
-                > & {
-                  compareAtPrice?: StorefrontAPI.Maybe<
-                    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-                  >;
-                  image?: StorefrontAPI.Maybe<
-                    {__typename: 'Image'} & Pick<
-                      StorefrontAPI.Image,
-                      'id' | 'url' | 'altText' | 'width' | 'height'
-                    >
-                  >;
-                  price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-                  product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
-                  selectedOptions: Array<
-                    Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
-                  >;
-                  unitPrice?: StorefrontAPI.Maybe<
-                    Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-                  >;
-                }
-              >;
-              swatch?: StorefrontAPI.Maybe<
-                Pick<StorefrontAPI.ProductOptionValueSwatch, 'color'> & {
-                  image?: StorefrontAPI.Maybe<{
-                    previewImage?: StorefrontAPI.Maybe<
-                      Pick<StorefrontAPI.Image, 'url'>
-                    >;
-                  }>;
-                }
-              >;
-            }
-          >;
-        }
-      >;
-      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
-        Pick<
-          StorefrontAPI.ProductVariant,
-          'availableForSale' | 'id' | 'sku' | 'title'
-        > & {
-          compareAtPrice?: StorefrontAPI.Maybe<
-            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-          >;
-          image?: StorefrontAPI.Maybe<
-            {__typename: 'Image'} & Pick<
-              StorefrontAPI.Image,
-              'id' | 'url' | 'altText' | 'width' | 'height'
-            >
-          >;
-          price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-          product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
-          selectedOptions: Array<
-            Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
-          >;
-          unitPrice?: StorefrontAPI.Maybe<
-            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-          >;
-        }
-      >;
-      adjacentVariants: Array<
-        Pick<
-          StorefrontAPI.ProductVariant,
-          'availableForSale' | 'id' | 'sku' | 'title'
-        > & {
-          compareAtPrice?: StorefrontAPI.Maybe<
-            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-          >;
-          image?: StorefrontAPI.Maybe<
-            {__typename: 'Image'} & Pick<
-              StorefrontAPI.Image,
-              'id' | 'url' | 'altText' | 'width' | 'height'
-            >
-          >;
-          price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-          product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
-          selectedOptions: Array<
-            Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
-          >;
-          unitPrice?: StorefrontAPI.Maybe<
-            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-          >;
-        }
-      >;
-    }
-  >;
 };
 
 export type ArticleQueryVariables = StorefrontAPI.Exact<{
@@ -1231,6 +1254,10 @@ export type PredictiveSearchQuery = {
 };
 
 interface GeneratedQueryTypes {
+  '#graphql\n  query Product(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n    $selectedOptions: [SelectedOptionInput!]!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...Product\n    }\n  }\n  #graphql\n  fragment Product on Product {\n    id\n    title\n    vendor\n    handle\n    descriptionHtml\n    description\n    encodedVariantExistence\n    encodedVariantAvailability\n    options {\n      name\n      optionValues {\n        name\n        firstSelectableVariant {\n          ...ProductVariant\n        }\n        swatch {\n          color\n          image {\n            previewImage {\n              url\n            }\n          }\n        }\n      }\n    }\n    selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {\n      ...ProductVariant\n    }\n    adjacentVariants (selectedOptions: $selectedOptions) {\n      ...ProductVariant\n    }\n    ...ProductImages\n    seo {\n      description\n      title\n    }\n  }\n  #graphql\n  fragment ProductVariant on ProductVariant {\n    availableForSale\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    id\n    image {\n      __typename\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n    selectedOptions {\n      name\n      value\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n  }\n\n  #graphql\n  fragment ProductImages on Product {\n    images(first: 100) {\n      nodes {\n        id\n        altText\n        url\n        width\n        height\n      }\n    }\n  }\n\n\n': {
+    return: ProductQuery;
+    variables: ProductQueryVariables;
+  };
   '#graphql\n  fragment Shop on Shop {\n    id\n    name\n    description\n    primaryDomain {\n      url\n    }\n    brand {\n      logo {\n        image {\n          url\n        }\n      }\n    }\n  }\n  query Header(\n    $country: CountryCode\n    $headerMenuHandle: String!\n    $language: LanguageCode\n  ) @inContext(language: $language, country: $country) {\n    shop {\n      ...Shop\n    }\n    menu(handle: $headerMenuHandle) {\n      ...Menu\n    }\n  }\n  #graphql\n  fragment MenuItem on MenuItem {\n    id\n    resourceId\n    tags\n    title\n    type\n    url\n  }\n  fragment ChildMenuItem on MenuItem {\n    ...MenuItem\n  }\n  fragment ParentMenuItem on MenuItem {\n    ...MenuItem\n    items {\n      ...ChildMenuItem\n    }\n  }\n  fragment Menu on Menu {\n    id\n    items {\n      ...ParentMenuItem\n    }\n  }\n\n': {
     return: HeaderQuery;
     variables: HeaderQueryVariables;
@@ -1250,10 +1277,6 @@ interface GeneratedQueryTypes {
   '#graphql\n  fragment RecommendedProduct on Product {\n    id\n    title\n    handle\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n      maxVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    compareAtPriceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n      maxVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n  }\n  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    products(first: 4, sortKey: UPDATED_AT, reverse: true) {\n      nodes {\n        ...RecommendedProduct\n      }\n    }\n  }\n': {
     return: RecommendedProductsQuery;
     variables: RecommendedProductsQueryVariables;
-  };
-  '#graphql\n  query ApiProduct(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n    $selectedOptions: [SelectedOptionInput!]!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...ApiProduct\n    }\n  }\n  #graphql\n  fragment ApiProduct on Product {\n    id\n    title\n    vendor\n    handle\n    descriptionHtml\n    description\n    encodedVariantExistence\n    encodedVariantAvailability\n    options {\n      name\n      optionValues {\n        name\n        firstSelectableVariant {\n          ...ApiProductVariant\n        }\n        swatch {\n          color\n          image {\n            previewImage {\n              url\n            }\n          }\n        }\n      }\n    }\n    selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {\n      ...ApiProductVariant\n    }\n    adjacentVariants (selectedOptions: $selectedOptions) {\n      ...ApiProductVariant\n    }\n  }\n  #graphql\n  fragment ApiProductVariant on ProductVariant {\n    availableForSale\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    id\n    image {\n      __typename\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n    selectedOptions {\n      name\n      value\n    }\n    sku\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n  }\n\n\n': {
-    return: ApiProductQuery;
-    variables: ApiProductQueryVariables;
   };
   '#graphql\n  query Article(\n    $articleHandle: String!\n    $blogHandle: String!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(language: $language, country: $country) {\n    blog(handle: $blogHandle) {\n      handle\n      articleByHandle(handle: $articleHandle) {\n        handle\n        title\n        contentHtml\n        publishedAt\n        author: authorV2 {\n          name\n        }\n        image {\n          id\n          altText\n          url\n          width\n          height\n        }\n        seo {\n          description\n          title\n        }\n      }\n    }\n  }\n': {
     return: ArticleQuery;

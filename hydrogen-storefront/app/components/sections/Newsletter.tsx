@@ -1,5 +1,5 @@
+import { MailIcon } from 'lucide-react';
 import {motion} from 'motion/react';
-import {DynamicIcon} from 'lucide-react/dynamic';
 
 export default function Newsletter() {
   return (
@@ -13,7 +13,7 @@ export default function Newsletter() {
           transition={{duration: 0.6}}
           className="max-w-2xl mx-auto flex flex-col items-center gap-6"
         >
-          <DynamicIcon name="mail" size={48} className="text-zinc-400 mb-2" />
+          <MailIcon size={48} className="text-zinc-400 mb-2" />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             Subscribe to our emails
           </h2>
@@ -25,7 +25,7 @@ export default function Newsletter() {
             <input
               type="email"
               placeholder="Enter your email"
-              className="flex-grow px-4 py-3 rounded-lg bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-500 transition-all"
+              className="px-4 py-3 rounded-lg bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-zinc-500 transition-all"
             />
             <button
               type="submit"

@@ -27,8 +27,10 @@ export function MediaGallery(props: MediaGalleryProps) {
   useEffect(() => {
     if (zoomImage) {
       document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = '15px';
     } else {
       document.body.style.overflow = 'auto';
+      document.body.style.paddingRight = '0';
     }
   }, [zoomImage]);
 
@@ -74,15 +76,17 @@ interface Props {
     onClose?: () => void;
 }
 
+
+
 function ZoomImage(props: Props) {
   const {image, onClose} = props;
   const {altText} = image;
 
   return (
     <motion.div
-      initial={{opacity: 0, y: '100%'}}
-      animate={{opacity: 1, y: '0'}}
-      exit={{opacity: 0, y: '100%'}}
+      initial={{opacity: 0,}}
+      animate={{opacity: 1,}}
+      exit={{opacity: 0, scale: 0}}
       transition={{duration: 0.2, ease: 'easeInOut'}}
       onClick={() => onClose?.()}
       className="fixed inset-0 top-0 bg-white z-50 flex items-center justify-center p-4 lg:p-10"
@@ -96,6 +100,10 @@ function ZoomImage(props: Props) {
       </button>
 
       <MotionImage
+        initial={{opacity: 0, scale: 0}}
+        animate={{opacity: 1, scale: 1}}
+        exit={{opacity: 0, scale: 0}}
+        transition={{duration: 0.5, ease: 'easeInOut'}}
         data={image}
         alt={altText}
         width={2000}

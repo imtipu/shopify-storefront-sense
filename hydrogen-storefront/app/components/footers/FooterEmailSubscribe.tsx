@@ -1,4 +1,4 @@
-import {DynamicIcon} from 'lucide-react/dynamic';
+import { MoveRightIcon } from "lucide-react";
 
 export default function FooterEmailSubscribe() {
   return (
@@ -21,7 +21,7 @@ export default function FooterEmailSubscribe() {
             type="submit"
             className="px-3 py-1.5 h-full ml-auto flex flex-col items-center justify-center"
           >
-            <DynamicIcon name="move-right" size={18} />
+            <MoveRightIcon size={18} />
           </button>
         </div>
       </form>

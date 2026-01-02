@@ -1,9 +1,9 @@
 import {Suspense} from 'react';
-import type { ProductFragment } from 'storefrontapi.generated';
+import type { ProductFragment as ProductFragment } from 'storefrontapi.generated';
 import { Image } from '@shopify/hydrogen';
 import { ProductImage } from '~/components/ProductImage';
 import { ProductPrice } from '~/components/ProductPrice';
-import { ProductForm } from '~/components/ProductForm';
+import { ProductForm } from '~/components/products/ProductForm';
 import {MotionImage} from '~/components/motion/Image';
 import {MediaGallery} from '~/components/media/ProductMedia';
 

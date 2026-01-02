@@ -12,7 +12,7 @@ export function ProductMedia({
   variants?: ProductVariantFragment[];
 }) {
   if (!image) {
-    return <div className="aspect-[4/5] bg-zinc-100 rounded-xl w-full" />;
+    return <div className="aspect-4/5 bg-zinc-100 rounded-xl w-full" />;
   }
   
   // Future improvement: Add carousel or grid of all images

@@ -1,8 +1,8 @@
 import {NavLink} from 'react-router';
 import {motion} from 'motion/react';
 import MotionNavLink from '~/components/motion/NavLink';
-import { DynamicIcon } from 'lucide-react/dynamic';
 import FooterEmailSubscribe from './FooterEmailSubscribe';
+import { FacebookIcon, InstagramIcon, TwitterIcon } from 'lucide-react';
 
 export default function MainFooter() {
   return (
@@ -264,13 +264,13 @@ export default function MainFooter() {
                               aria-label="Facebook"
                               className="text-zinc-700 hover:text-zinc-900 p-1"
                           >
-                <DynamicIcon name="facebook" />
+                <FacebookIcon size={20} />
               </a>  
               <a target="_blank" href="https://www.instagram.com/" rel="noopener noreferrer" aria-label="Instagram" className="text-zinc-700 hover:text-zinc-900 p-1">
-                <DynamicIcon name="instagram" />
+                <InstagramIcon size={20} />
               </a>
               <a target="_blank" href="https://www.twitter.com/" rel="noopener noreferrer" aria-label="Twitter" className="text-zinc-700 hover:text-zinc-900 p-1">
-                <DynamicIcon name="twitter" />
+                <TwitterIcon size={20} />
               </a>
             </div>
           </div>

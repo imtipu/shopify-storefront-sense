@@ -18,7 +18,6 @@ import {
   useOptimisticCart,
 } from '@shopify/hydrogen';
 
-// import {DynamicIcon} from 'lucide-react/dynamic';
 import {useState} from 'react';
 import {useSearchStore} from '~/stores/search';
 import MainMenu from './MainMenu';
