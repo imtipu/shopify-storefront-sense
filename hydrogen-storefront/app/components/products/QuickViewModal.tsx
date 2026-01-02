@@ -3,7 +3,7 @@ import {useFetcher} from 'react-router';
 import {AnimatePresence, motion} from 'motion/react';
 import {useUIStore} from '~/stores/store';
 import {Image, Money} from '@shopify/hydrogen';
-import {ProductForm} from '~/components/ProductForm';
+import {ProductForm} from '~/components/products/ProductForm';
 import {
   useOptimisticVariant,
   getAdjacentAndFirstAvailableVariants,

@@ -1,5 +1,12 @@
 export const PRODUCT_IMAGES_FRAGMENT = `#graphql
   fragment ProductImages on Product {
+    featuredImage {
+      id
+      altText
+      url
+      width
+      height
+    }
     images(first: 100) {
       nodes {
         id
@@ -14,12 +21,8 @@ export const PRODUCT_IMAGES_FRAGMENT = `#graphql
 
 export const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariant on ProductVariant {
-    availableForSale
-    compareAtPrice {
-      amount
-      currencyCode
-    }
     id
+    availableForSale
     image {
       __typename
       id
@@ -29,6 +32,10 @@ export const PRODUCT_VARIANT_FRAGMENT = `#graphql
       height
     }
     price {
+      amount
+      currencyCode
+    }
+    compareAtPrice {
       amount
       currencyCode
     }
@@ -86,6 +93,26 @@ export const PRODUCT_FRAGMENT = `#graphql
     seo {
       description
       title
+    }
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    compareAtPriceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
     }
   }
   ${PRODUCT_VARIANT_FRAGMENT}

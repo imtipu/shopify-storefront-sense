@@ -1,12 +1,14 @@
-import {Link} from 'react-router';
 import {Image, Money} from '@shopify/hydrogen';
-import MotionNavLink from '~/components/motion/NavLink';
+import {MotionNavLink} from '~/components/motion/NavLink';
 import type {
   ProductItemFragment,
   CollectionItemFragment,
   RecommendedProductFragment,
+  ProductFragment,
 } from 'storefrontapi.generated';
 import {useVariantUrl} from '~/lib/variants';
+import {useUIStore} from '~/stores/store';
+import {FaEye} from 'react-icons/fa6';
 
 export function ProductItem({
   product,
@@ -15,18 +17,49 @@ export function ProductItem({
   product:
     | CollectionItemFragment
     | ProductItemFragment
-    | RecommendedProductFragment;
+    | RecommendedProductFragment
+    | ProductFragment;
   loading?: 'eager' | 'lazy';
 }) {
   const variantUrl = useVariantUrl(product.handle);
-  const image = product.featuredImage;
+  const image = product.featuredImage || null;
+  const price = Number(product.priceRange?.minVariantPrice?.amount ?? 0);
+  const compareAtPrice = Number(
+    product.compareAtPriceRange?.minVariantPrice?.amount ?? 0,
+  );
+
+  const isOnSale = price < compareAtPrice;
+
+  const salePercentage = compareAtPrice > price ? Math.round(
+    ((compareAtPrice - price) / compareAtPrice) * 100,
+  ) : 0;
+
+  const {openQuickView} = useUIStore();
   return (
     <MotionNavLink
-      className="product-item flex flex-col w-full overflow-hidden rounded-xl bg-white shadow-md"
+      className="product-item group flex flex-col w-full overflow-hidden rounded-xl bg-white shadow-md relative"
       key={product.id}
       prefetch="intent"
       to={variantUrl}
     >
+      {isOnSale && (
+        <div className="absolute top-0 left-0 rounded-br-2xl bg-zinc-800/80 text-white px-2 py-1">
+          {isOnSale ? `${salePercentage}%` : 'Sale'}
+        </div>
+      )}
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation();
+          // parent element click event will not trigger
+          // prevent default behavior
+          e.preventDefault();
+          openQuickView(product.handle);
+        }}
+        className="absolute top-60 right-0 bg-white/40 rounded-l-full pl-4 py-2 pr-3 text-zinc-600 border-l border-t border-b border-zinc-600 shadow opacity-0 translate-x-full group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 ease-in-out"
+      >
+        <FaEye size={16} />
+      </button>
       {image && (
         <Image
           alt={image.altText || product.title}

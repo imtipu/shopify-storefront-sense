@@ -1,10 +1,7 @@
 import {Suspense} from 'react';
-import ProductGridItem from '~/components/snippets/ProductGridItem';
+import {ProductItem} from '~/components/ProductItem';
 import type {RecommendedProductsQuery} from 'storefrontapi.generated';
 import {Await} from 'react-router';
-
-
-
 
 interface Props {
   products: Promise<RecommendedProductsQuery | null>;
@@ -24,7 +21,7 @@ export default function RecommendedProducts(props: Props) {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 w-full">
                 {response
                   ? response.products.nodes.map((product) => (
-                      <ProductGridItem key={product.id} product={product} />
+                      <ProductItem key={product.id} product={product} />
                     ))
                   : null}
               </div>

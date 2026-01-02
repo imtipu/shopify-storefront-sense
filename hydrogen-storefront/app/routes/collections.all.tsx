@@ -4,6 +4,7 @@ import {getPaginationVariables, Image, Money} from '@shopify/hydrogen';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {ProductItem} from '~/components/ProductItem';
 import type {CollectionItemFragment} from 'storefrontapi.generated';
+import {CATALOG_QUERY} from '~/graphql/collections';
 
 export const meta: Route.MetaFunction = () => {
   return [{title: `Hydrogen | Products`}];
@@ -26,7 +27,7 @@ export async function loader(args: Route.LoaderArgs) {
 async function loadCriticalData({context, request}: Route.LoaderArgs) {
   const {storefront} = context;
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 8,
+    pageBy: 12,
   });
 
   const [{products}] = await Promise.all([
@@ -73,63 +74,3 @@ export default function Collection() {
     </div>
   );
 }
-
-const COLLECTION_ITEM_FRAGMENT = `#graphql
-  fragment MoneyCollectionItem on MoneyV2 {
-    amount
-    currencyCode
-  }
-  fragment CollectionItem on Product {
-    id
-    handle
-    title
-    featuredImage {
-      id
-      altText
-      url
-      width
-      height
-    }
-    priceRange {
-      minVariantPrice {
-        ...MoneyCollectionItem
-      }
-      maxVariantPrice {
-        ...MoneyCollectionItem
-      }
-    }
-    compareAtPriceRange {
-      minVariantPrice {
-        ...MoneyCollectionItem
-      }
-      maxVariantPrice {
-        ...MoneyCollectionItem
-      }
-    }
-  }
-` as const;
-
-// NOTE: https://shopify.dev/docs/api/storefront/latest/objects/product
-const CATALOG_QUERY = `#graphql
-  query Catalog(
-    $country: CountryCode
-    $language: LanguageCode
-    $first: Int
-    $last: Int
-    $startCursor: String
-    $endCursor: String
-  ) @inContext(country: $country, language: $language) {
-    products(first: $first, last: $last, before: $startCursor, after: $endCursor) {
-      nodes {
-        ...CollectionItem
-      }
-      pageInfo {
-        hasPreviousPage
-        hasNextPage
-        startCursor
-        endCursor
-      }
-    }
-  }
-  ${COLLECTION_ITEM_FRAGMENT}
-` as const;

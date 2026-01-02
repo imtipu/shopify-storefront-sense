@@ -17,6 +17,13 @@
         "request": "launch",
         "command": "npm run build",
         "cwd": "${workspaceFolder}"
+      },
+      {
+        "type": "node-terminal",
+        "name": "Codegen",
+        "request": "launch",
+        "command": "npm run codegen",
+        "cwd": "${workspaceFolder}"
       }
     ]
 }
