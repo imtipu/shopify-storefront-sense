@@ -3,8 +3,12 @@ import {motion} from 'motion/react';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {useOptimisticCart} from '@shopify/hydrogen';
 import {Link} from 'react-router';
+import {Image, Money} from '@shopify/hydrogen';
 
 import {ArrowRightIcon, ShoppingBasketIcon, HandbagIcon} from 'lucide-react';
+import type {CartLine} from '@shopify/hydrogen/storefront-api-types';
+import {useVariantUrl} from '~/lib/variants';
+import {CartLineItem} from '../CartLineItem';
 
 interface Props {
   cart: CartApiQueryFragment | null;
@@ -69,10 +73,21 @@ export default function PageContent({cart: originalCart}: Props) {
       className="flex flex-col w-full items-center py-10"
     >
       <div className="container px-4 py-7 bg-white rounded-lg shadow-lg">
-        <h1 className={`text-xl font-bold ${cartHasItems ? 'text-left text-zinc-700' : 'text-center text-zinc-500'}`}>
+        <h1
+          className={`text-xl font-bold ${cartHasItems ? 'text-left text-zinc-700' : 'text-center text-zinc-500'}`}
+        >
           Your Cart
           {cart?.totalQuantity ? ` (${cart.totalQuantity} items)` : null}
         </h1>
+
+        {cartHasItems && (
+          <div className="grid grid-cols-1 lg:grid-cols-8 gap-4 w-full">
+            <div className="lg:col-span-6 flex flex-col gap-4">
+              {(cart?.lines?.nodes ?? []).map((line) => <CartLineItem key={line.id} line={line} layout="page" />)}
+            </div>
+            <div className="lg:col-span-2"></div>
+          </div>
+        )}
 
         {!cartHasItems && <CartEmptyContent />}
       </div>
