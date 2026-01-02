@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import {
 	Drawer,
 	DrawerContent,
@@ -11,9 +12,10 @@ import {
 	Divider,
 } from "@heroui/react";
 import { useCartStore } from "@/stores/cart";
-import { IoCloseOutline, IoAddOutline, IoRemoveOutline, IoArrowForward } from "react-icons/io5";
+import { IoAddOutline, IoRemoveOutline, IoArrowForward } from "react-icons/io5";
 import { HiOutlineTrash } from "react-icons/hi2";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const MOCK_CART_ITEMS = [
 	{
@@ -36,11 +38,16 @@ const MOCK_CART_ITEMS = [
 
 export default function CartDrawer() {
 	const { isOpen, onClose, onOpenChange } = useCartStore();
+	const pathname = usePathname();
 
 	const subtotal = MOCK_CART_ITEMS.reduce(
 		(acc, item) => acc + item.price * item.quantity,
 		0
 	);
+
+	useEffect(() => {
+		onClose();
+	}, [pathname]);
 
 	return (
 		<Drawer
@@ -65,8 +72,12 @@ export default function CartDrawer() {
 								<h2 className="text-base font-medium tracking-tight uppercase">
 									Your Bag ({MOCK_CART_ITEMS.length})
 								</h2>
-								<Link href="/cart" className="flex items-center gap-1 text-xs font-normal text-gray-500">
-									View Cart <IoArrowForward size={12} className="animate-pulse" />
+								<Link
+									href="/cart"
+									className="flex items-center gap-1 text-xs font-normal text-gray-500"
+								>
+									View Cart{" "}
+									<IoArrowForward size={12} className="animate-pulse" />
 								</Link>
 							</div>
 						</DrawerHeader>
@@ -74,7 +85,7 @@ export default function CartDrawer() {
 							<div className="flex flex-col gap-4">
 								{MOCK_CART_ITEMS.map((item) => (
 									<div key={item.id} className="flex gap-3 group">
-										<div className="w-20 h-20 bg-gray-50 flex-shrink-0 relative overflow-hidden flex flex-col items-center justify-center">
+										<div className="w-20 h-20 bg-gray-50 relative overflow-hidden flex flex-col items-center justify-center">
 											<Image
 												src={item.image}
 												alt={item.name}
@@ -165,9 +176,10 @@ export default function CartDrawer() {
 										Checkout
 									</Button>
 									<Button
+										as={Link}
+										href="/"
 										variant="bordered"
 										className="w-full rounded-none uppercase tracking-widest text-xs text-gray-800 border-gray-800"
-										onPress={onClose}
 									>
 										Continue Shopping
 									</Button>
