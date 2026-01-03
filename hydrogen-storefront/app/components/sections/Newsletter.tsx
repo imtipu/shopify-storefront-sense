@@ -1,5 +1,5 @@
-import { MailIcon } from 'lucide-react';
 import {motion} from 'motion/react';
+import {IoMailOutline} from 'react-icons/io5';
 
 export default function Newsletter() {
   return (
@@ -13,7 +13,7 @@ export default function Newsletter() {
           transition={{duration: 0.6}}
           className="max-w-2xl mx-auto flex flex-col items-center gap-6"
         >
-          <MailIcon size={48} className="text-zinc-400 mb-2" />
+          <IoMailOutline size={48} className="text-zinc-400 mb-2" />
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             Subscribe to our emails
           </h2>
@@ -21,7 +21,10 @@ export default function Newsletter() {
             Be the first to know about new collections and exclusive offers.
           </p>
 
-          <form className="w-full max-w-md flex flex-col md:flex-row gap-3 mt-4" onSubmit={(e) => e.preventDefault()}>
+          <form
+            className="w-full max-w-md flex flex-col md:flex-row gap-3 mt-4"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <input
               type="email"
               placeholder="Enter your email"

@@ -13,6 +13,7 @@ import {FaEye} from 'react-icons/fa6';
 export function ProductItem({
   product,
   loading,
+  index,
 }: {
   product:
     | CollectionItemFragment
@@ -20,6 +21,7 @@ export function ProductItem({
     | RecommendedProductFragment
     | ProductFragment;
   loading?: 'eager' | 'lazy';
+  index?: number;
 }) {
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage || null;
@@ -30,13 +32,17 @@ export function ProductItem({
 
   const isOnSale = price < compareAtPrice;
 
-  const salePercentage = compareAtPrice > price ? Math.round(
-    ((compareAtPrice - price) / compareAtPrice) * 100,
-  ) : 0;
+  const salePercentage =
+    compareAtPrice > price
+      ? Math.round(((compareAtPrice - price) / compareAtPrice) * 100)
+      : 0;
 
   const {openQuickView} = useUIStore();
   return (
     <MotionNavLink
+      initial={{opacity: 0, y: 20}}
+      animate={{opacity: 1, y: 0}}
+      transition={{duration: 0.2, delay: index ? index * 0.01 : 0}}
       className="product-item group flex flex-col w-full overflow-hidden rounded-xl bg-white shadow-md relative"
       key={product.id}
       prefetch="intent"

@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import {ProductImage} from '~/components/ProductImage';
 import {MotionImage} from '~/components/motion/Image';
 import { useEffect, useState } from 'react';
-import { XIcon } from 'lucide-react';
+import {IoClose} from 'react-icons/io5';
 
 interface MediaGalleryProps {
   selectedVariant: any;
@@ -15,7 +15,7 @@ export function MediaGallery(props: MediaGalleryProps) {
   const {selectedVariant, enableZoom, images} = props;
   const hasProductImages = (images?.length || 0) >= 1;
   const [zoomImage, setZoomImage] = useState<any>(null);
-  
+
   const handleZoom = (image: any) => {
     if (zoomImage?.id === image?.id) {
       setZoomImage(null);
@@ -35,21 +35,21 @@ export function MediaGallery(props: MediaGalleryProps) {
   }, [zoomImage]);
 
   return (
-    <div className="flex flex-col w-full relative">
-      <div className="flex flex-col w-full h-full max-w-[500px] max-h-[500px] relative">
+    <div className="flex flex-col w-full relative items-center justify-center">
+      <div className="flex flex-col w-full h-full max-w-[300px] max-h-[300px] md:max-w-[500px] md:max-h-[500px] relative items-center justify-center">
         <ProductImage
           image={selectedVariant?.image}
-          baseClassName="w-full h-full max-w-[500px] max-h-[500px] relative rounded-2xl shadow-lg"
+          baseClassName="w-full h-full  relative rounded-2xl shadow-lg"
           className={`w-full h-full object-cover object-center cursor-zoom-in`}
           onClick={handleZoom}
         />
       </div>
 
       {hasProductImages && (
-        <div className="flex w-full max-w-[500px] max-h-[500px] relative py-4">
+        <div className="flex w-full max-w-[500px] relative py-4">
           {/* other images */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {images?.map((image: any, index: number) =>
+          <div className="grid grid-cols-3 sm:grid-cols-3  lg:grid-cols-4 gap-4">
+            {images?.map((image: any, index: number) => (
               // zoom condition
               <ProductImage
                 key={image.id}
@@ -58,13 +58,17 @@ export function MediaGallery(props: MediaGalleryProps) {
                 className="w-full h-full cursor-zoom-in"
                 onClick={(data) => setZoomImage(data)}
               />
-            )}
+            ))}
           </div>
         </div>
       )}
       <AnimatePresence mode="wait">
         {zoomImage && (
-          <ZoomImage key={zoomImage.id} image={zoomImage} onClose={() => setZoomImage(null)} />
+          <ZoomImage
+            key={zoomImage.id}
+            image={zoomImage}
+            onClose={() => setZoomImage(null)}
+          />
         )}
       </AnimatePresence>
     </div>
@@ -72,11 +76,9 @@ export function MediaGallery(props: MediaGalleryProps) {
 }
 
 interface Props {
-    image: any;
-    onClose?: () => void;
+  image: any;
+  onClose?: () => void;
 }
-
-
 
 function ZoomImage(props: Props) {
   const {image, onClose} = props;
@@ -84,8 +86,8 @@ function ZoomImage(props: Props) {
 
   return (
     <motion.div
-      initial={{opacity: 0,}}
-      animate={{opacity: 1,}}
+      initial={{opacity: 0}}
+      animate={{opacity: 1}}
       exit={{opacity: 0, scale: 0}}
       transition={{duration: 0.2, ease: 'easeInOut'}}
       onClick={() => onClose?.()}
@@ -96,7 +98,7 @@ function ZoomImage(props: Props) {
         onClick={() => onClose?.()}
         className="absolute top-4 right-4 cursor-pointer p-2 w-10 h-10 flex items-center justify-center rounded-full bg-slate-100/50 hover:bg-slate-200"
       >
-        <XIcon size={24} />
+        <IoClose size={24} />
       </button>
 
       <MotionImage

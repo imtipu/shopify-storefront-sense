@@ -24,7 +24,7 @@ export function MainProduct({
   return (
     <div className="flex flex-col w-full relative">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full max-w-7xl mx-auto py-10 px-4 relative">
-        <div className="product-gallery flex flex-col lg:sticky lg:top-30 h-fit">
+        <div className="product-gallery flex flex-col lg:sticky lg:top-30 lg:h-fit">
           {hasProductImages && (
             <MediaGallery
               selectedVariant={selectedVariant}

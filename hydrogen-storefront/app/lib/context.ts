@@ -1,4 +1,7 @@
-import {createHydrogenContext} from '@shopify/hydrogen';
+import {
+  createHydrogenContext,
+  createCustomerAccountClient,
+} from '@shopify/hydrogen';
 import {AppSession} from '~/lib/session';
 import {CART_QUERY_FRAGMENT} from '~/lib/fragments';
 
@@ -12,7 +15,9 @@ const additionalContext = {
 } as const;
 
 // Automatically augment HydrogenAdditionalContext with the additional context type
-type AdditionalContextType = typeof additionalContext;
+type AdditionalContextType = typeof additionalContext & {
+  customerAccount: ReturnType<typeof createCustomerAccountClient>;
+};
 
 declare global {
   interface HydrogenAdditionalContext extends AdditionalContextType {}
@@ -40,6 +45,13 @@ export async function createHydrogenRouterContext(
     AppSession.init(request, [env.SESSION_SECRET]),
   ]);
 
+  const customerAccount = createCustomerAccountClient({
+    request,
+    session,
+    customerAccountId: env.PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID,
+    shopId: env.SHOP_ID,
+  });
+
   const hydrogenContext = createHydrogenContext(
     {
       env,
@@ -53,7 +65,10 @@ export async function createHydrogenRouterContext(
         queryFragment: CART_QUERY_FRAGMENT,
       },
     },
-    additionalContext,
+    {
+      ...additionalContext,
+      customerAccount,
+    },
   );
 
   return hydrogenContext;

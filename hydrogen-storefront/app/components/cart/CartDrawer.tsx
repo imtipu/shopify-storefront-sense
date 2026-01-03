@@ -1,22 +1,28 @@
-import {useState, useEffect, Suspense} from 'react';
+import {useEffect, Suspense} from 'react';
 import {Await, NavLink} from 'react-router';
 
 import {AnimatePresence, motion} from 'motion/react';
 
 import {useCartDrawer} from '~/stores/cart';
-import { XIcon, ArrowRightIcon } from 'lucide-react';
-import type { CartApiQueryFragment } from 'storefrontapi.generated';
-import { CartMain } from '../CartMain';
+import type {CartApiQueryFragment} from 'storefrontapi.generated';
+
 import DrawerContent from './DrawerContent';
 
-export default function CartDrawer({cart}: {cart: Promise<CartApiQueryFragment | null>;}) {
+export default function CartDrawer({
+  cart,
+}: {
+  cart: Promise<CartApiQueryFragment | null>;
+}) {
   const {isOpen, openCart, closeCart} = useCartDrawer();
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.position = 'fixed';
+      return () => {
+        document.body.style.overflow = 'auto';
+        document.body.style.position = 'relative';
+      };
     }
   }, [isOpen]);
 
@@ -31,15 +37,13 @@ export default function CartDrawer({cart}: {cart: Promise<CartApiQueryFragment |
             transition={{duration: 0.3}}
             className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-sm min-w-xs h-full bg-white overflow-y-auto shadow-lg shadow-gray-500/50"
           >
-            <Suspense fallback={<p>Loading cart ...</p>}>
+            <Suspense fallback={<DrawerContent cart={null} />}>
               <Await resolve={cart}>
                 {(cart) => {
-                  // return <CartMain cart={cart} layout="aside" />;
                   return <DrawerContent cart={cart} />;
                 }}
               </Await>
             </Suspense>
-            
           </motion.div>
         )}
       </AnimatePresence>

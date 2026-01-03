@@ -26,11 +26,9 @@ export default async function handleRequest(
       'https://fonts.googleapis.com',
       'https://cdn.shopify.com',
     ],
-    imgSrc: [
-      "'self'",
-      'https://cdn.shopify.com',
-      "*"
-    ]
+    imgSrc: ["'self'", 'https://cdn.shopify.com', '*'],
+
+    connectSrc: [`wss://${process.env.PUBLIC_TUNNEL_DOMAIN}:3000`],
   });
 
   const body = await renderToReadableStream(

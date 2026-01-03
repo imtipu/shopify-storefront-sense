@@ -32,7 +32,7 @@ export const ProductInfo = (props: ProductInfoProps) => {
           initial={{opacity: 0, y: -10}}
           animate={{opacity: 1, y: 0}}
           transition={{duration: 0.3}}
-          className="flex flex-col w-full py-5"
+          className="flex flex-col w-full py-2 lg:py-5"
         >
           <ProductPrice
             price={selectedVariant?.price}
@@ -43,28 +43,28 @@ export const ProductInfo = (props: ProductInfoProps) => {
           initial={{opacity: 0, y: -10}}
           animate={{opacity: 1, y: 0}}
           transition={{duration: 0.3}}
-          className="flex flex-col w-full py-5"
+          className="flex flex-col w-full py-2 lg:py-5"
         >
           <ProductForm
             productOptions={productOptions}
             selectedVariant={selectedVariant}
           />
-              </motion.div>
-              
-              {product.descriptionHtml && (
-                <motion.div
-                  initial={{opacity: 0, y: -10}}
-                  animate={{opacity: 1, y: 0}}
-                  transition={{duration: 0.3}}
-                  className="flex flex-col w-full py-5 relative"
-                  >
-                      <h4 className="text-zinc-600 tracking-wide mb-2">Description</h4>
-                      <div
-                          className="text-zinc-700 text-sm"
-                    dangerouslySetInnerHTML={{__html: product.descriptionHtml}}
-                  />
-                </motion.div>
-              )}
+        </motion.div>
+
+        {product.descriptionHtml && (
+          <motion.div
+            initial={{opacity: 0, y: -10}}
+            animate={{opacity: 1, y: 0}}
+            transition={{duration: 0.3}}
+            className="flex flex-col w-full py-2 lg:py-5 relative"
+          >
+            <h4 className="text-zinc-600 tracking-wide mb-2">Description</h4>
+            <div
+              className="text-zinc-700 text-sm"
+              dangerouslySetInnerHTML={{__html: product.descriptionHtml}}
+            />
+          </motion.div>
+        )}
       </div>
     </motion.div>
   );

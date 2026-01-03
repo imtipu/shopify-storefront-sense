@@ -23,6 +23,10 @@ import {QuickViewModal} from './products/QuickViewModal';
 import MainFooter from './footers/MainFooter';
 import CartDrawer from './cart/CartDrawer';
 import {useCartDrawer} from '~/stores/cart';
+import {AnimatePresence} from 'motion/react';
+import {useMobileMenuStore} from '~/stores/menu';
+import MobileMenu from './headers/MobileMenu';
+import {BackgroundOverlay} from './BackgroundOverlay';
 
 interface PageLayoutProps {
   cart: Promise<CartApiQueryFragment | null>;
@@ -42,9 +46,13 @@ export function PageLayout({
   publicStoreDomain,
 }: PageLayoutProps) {
   // const {isOpen: isCartDrawerOpen} = useCartDrawer();
+  const {isOpen: isMobileMenuOpen, openMenu: openMobileMenu} =
+    useMobileMenuStore();
   return (
     <Aside.Provider>
+      <BackgroundOverlay />
       <QuickViewModal />
+
       <AnnouncementBar />
       <StickyHeaderWrapper>
         {header && (
@@ -56,6 +64,22 @@ export function PageLayout({
           />
         )}
       </StickyHeaderWrapper>
+      {/* {isMobileMenuOpen && (
+        <MobileMenu
+          menu={header.menu}
+          publicStoreDomain={publicStoreDomain}
+          primaryDomainUrl={''}
+        />
+      )} */}
+      <AnimatePresence mode="wait">
+        {isMobileMenuOpen && (
+          <MobileMenu
+            menu={header.menu}
+            publicStoreDomain={publicStoreDomain}
+            primaryDomainUrl={''}
+          />
+        )}
+      </AnimatePresence>
       <CartDrawer cart={cart} />
       {/* Spacer for fixed header */}
       {/* <div className="h-[120px] w-full" /> */}

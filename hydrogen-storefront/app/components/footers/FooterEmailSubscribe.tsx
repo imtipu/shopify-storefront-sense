@@ -1,4 +1,4 @@
-import { MoveRightIcon } from "lucide-react";
+import {GoArrowRight} from 'react-icons/go';
 
 export default function FooterEmailSubscribe() {
   return (
@@ -21,7 +21,7 @@ export default function FooterEmailSubscribe() {
             type="submit"
             className="px-3 py-1.5 h-full ml-auto flex flex-col items-center justify-center"
           >
-            <MoveRightIcon size={18} />
+            <GoArrowRight size={18} />
           </button>
         </div>
       </form>

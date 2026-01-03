@@ -1,7 +1,7 @@
 import {useSearchStore} from '~/stores/search';
 import {motion} from 'motion/react';
 import {useEffect, useRef} from 'react';
-import { SearchIcon, XIcon } from 'lucide-react';
+import {IoClose, IoSearchSharp} from 'react-icons/io5';
 
 export default function SearchBar() {
   const {isOpen, setOpen} = useSearchStore();
@@ -24,7 +24,7 @@ export default function SearchBar() {
       <div className="container mx-auto px-4 max-w-6xl">
         <form className="flex items-center w-full gap-4">
           <div className="flex-1 flex items-center gap-2 border-b border-zinc-200 pb-1">
-            <SearchIcon size={20} className="text-zinc-400" />
+            <IoSearchSharp size={20} className="text-zinc-400" />
             <input
               ref={inputRef}
               type="text"
@@ -40,7 +40,7 @@ export default function SearchBar() {
             className="p-2 hover:bg-zinc-50 rounded-full transition-colors"
             onClick={() => setOpen(false)}
           >
-            <XIcon size={20} className="text-zinc-600" />
+            <IoClose size={20} className="text-zinc-600" />
           </button>
         </form>
       </div>

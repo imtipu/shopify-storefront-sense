@@ -13,6 +13,13 @@
       },
       {
         "type": "node-terminal",
+        "name": "Ngrok",
+        "request": "launch",
+        "command": "npm run ngrok",
+        "cwd": "${workspaceFolder}"
+      },
+      {
+        "type": "node-terminal",
         "name": "Build",
         "request": "launch",
         "command": "npm run build",

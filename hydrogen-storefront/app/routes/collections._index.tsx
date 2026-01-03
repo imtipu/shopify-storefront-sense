@@ -44,6 +44,26 @@ function loadDeferredData({context}: Route.LoaderArgs) {
   return {};
 }
 
+export const meta: Route.MetaFunction = ({data}) => {
+  return [
+    {
+      title: 'Collections',
+    },
+    {
+      name: 'description',
+      content: 'Collections',
+    },
+    {
+      name: 'keywords',
+      content: 'Collections',
+    },
+    {
+      name: 'robots',
+      content: 'index, follow',
+    },
+  ];
+};
+
 export default function Collections() {
   const {collections} = useLoaderData<typeof loader>();
 
