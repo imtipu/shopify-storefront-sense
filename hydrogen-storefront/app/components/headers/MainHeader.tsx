@@ -23,13 +23,13 @@ import {useSearchStore} from '~/stores/search';
 import MainMenu from './MainMenu';
 import MobileMenu from './MobileMenu';
 import SearchBar from '~/components/search/SearchBar';
-import {
-  ShoppingBagIcon,
-  UserIcon,
-  MenuIcon,
-  SearchIcon,
-} from 'lucide-react';
-import { useCartDrawer } from '~/stores/cart';
+import {IoSearchSharp} from 'react-icons/io5';
+import {RiMenu2Fill} from 'react-icons/ri';
+import {FaRegUser} from 'react-icons/fa6';
+import {MdOutlineShoppingBag} from 'react-icons/md';
+
+import {useCartDrawer} from '~/stores/cart';
+import {useMobileMenuStore} from '~/stores/menu';
 
 interface Props {
   header: HeaderQuery;
@@ -40,7 +40,7 @@ interface Props {
 
 export const CartBadge = ({count}: {count: number | null}) => {
   const {open} = useAside();
-  const { publish, shop, cart, prevCart } = useAnalytics();
+  const {publish, shop, cart, prevCart} = useAnalytics();
   const {openCart} = useCartDrawer();
 
   return (
@@ -65,7 +65,7 @@ export const CartBadge = ({count}: {count: number | null}) => {
             }}
             className="flex gap-0.5 items-center justify-center p-2 cursor-pointer text-zinc-600 hover:text-zinc-800"
           >
-            <ShoppingBagIcon size={18} />
+            <MdOutlineShoppingBag size={20} />
             {count === null ? <sup>&nbsp;</sup> : <sup>{count}</sup>}
           </MotionNavLink>
         );
@@ -93,15 +93,14 @@ function CartBanner() {
 export default function MainHeader(props: Props) {
   const {header, cart, publicStoreDomain, isLoggedIn} = props;
   const {menu, shop} = header;
-  const {open} = useAside();
+  // const {open} = useAside();
   const {isOpen: isSearchOpen, setOpen: setSearchOpen} = useSearchStore();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const {openCart} = useCartDrawer();
+  const {toggleMenu} = useMobileMenuStore();
 
   return (
     <header className="flex flex-col w-full justify-center items-center relative z-40 bg-white/80 backdrop-blur-md">
-      <div className="flex flex-col w-full container relative">
-        <div className="grid grid-cols-3 w-full h-16 px-4 md:px-0">
+      <div className="flex flex-col w-full xl:container relative">
+        <div className="grid grid-cols-3 w-full h-16 px-2 md:px-0">
           <div className="flex items-center justify-start">
             <div className="flex items-center">
               <motion.button
@@ -109,9 +108,12 @@ export default function MainHeader(props: Props) {
                 animate={{opacity: 1, x: 0}}
                 transition={{duration: 0.5}}
                 className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700 md:hidden"
-                onClick={() => setIsMobileMenuOpen(true)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleMenu();
+                }}
               >
-                <MenuIcon size={20} />
+                <RiMenu2Fill size={20} />
               </motion.button>
               <motion.button
                 initial={{opacity: 0, x: -10}}
@@ -120,7 +122,7 @@ export default function MainHeader(props: Props) {
                 className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700"
                 onClick={() => setSearchOpen(!isSearchOpen)}
               >
-                <SearchIcon size={20} />
+                <IoSearchSharp size={20} />
               </motion.button>
             </div>
           </div>
@@ -136,8 +138,11 @@ export default function MainHeader(props: Props) {
             </MotionNavLink>
           </div>
           <div className="flex flex-col items-end justify-center">
-            <div className="flex items-center">
-              <NavLink
+            <div className="flex items-center justify-center">
+              <MotionNavLink
+                initial={{opacity: 0, x: 10}}
+                animate={{opacity: 1, x: 0}}
+                transition={{duration: 0.5}}
                 prefetch="intent"
                 to="/account"
                 className="p-2 cursor-pointer text-zinc-500/80 hover:text-zinc-700"
@@ -146,31 +151,20 @@ export default function MainHeader(props: Props) {
                   <Await resolve={isLoggedIn} errorElement="Sign in">
                     {(isLoggedIn) =>
                       isLoggedIn ? (
-                        <UserIcon size={20} />
+                        <FaRegUser size={16} />
                       ) : (
-                        <UserIcon size={20} />
+                        <FaRegUser size={16} />
                       )
                     }
                   </Await>
                 </Suspense>
-              </NavLink>
+              </MotionNavLink>
               <CartToggle cart={cart} />
             </div>
           </div>
         </div>
 
         <AnimatePresence>{isSearchOpen && <SearchBar />}</AnimatePresence>
-
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <MobileMenu
-              menu={menu}
-              publicStoreDomain={publicStoreDomain}
-              primaryDomainUrl={''}
-              onClose={() => setIsMobileMenuOpen(false)}
-            />
-          )}
-        </AnimatePresence>
 
         <div className="hidden md:block">
           <MainMenu

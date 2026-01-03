@@ -5,6 +5,8 @@ import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import ProductGridItem from '~/components/snippets/ProductGridItem';
 import type {ProductItemFragment} from 'storefrontapi.generated';
+import { ProductItem } from '~/components/ProductItem';
+import { COLLECTION_DETAIL_QUERY } from '~/graphql/collections';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [{title: `Hydrogen | ${data?.collection.title ?? ''} Collection`}];
@@ -36,7 +38,7 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
   }
 
   const [{collection}] = await Promise.all([
-    storefront.query(COLLECTION_QUERY, {
+    storefront.query(COLLECTION_DETAIL_QUERY, {
       variables: {handle, ...paginationVariables},
       // Add other queries here, so that they are loaded in parallel
     }),
@@ -79,13 +81,14 @@ export default function Collection() {
         </div>
         <PaginatedResourceSection<ProductItemFragment>
           connection={collection.products}
-          resourcesClassName="products-grid"
+          resourcesClassName="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-x-15 xl:gap-y-10 w-full"
         >
           {({node: product, index}) => (
-            <ProductGridItem
+            <ProductItem
               key={product.id}
               product={product}
               loading={index < 8 ? 'eager' : undefined}
+              index={index}
             />
           )}
         </PaginatedResourceSection>
@@ -138,38 +141,3 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
 ` as const;
 
 // NOTE: https://shopify.dev/docs/api/storefront/2022-04/objects/collection
-const COLLECTION_QUERY = `#graphql
-  ${PRODUCT_ITEM_FRAGMENT}
-  query Collection(
-    $handle: String!
-    $country: CountryCode
-    $language: LanguageCode
-    $first: Int
-    $last: Int
-    $startCursor: String
-    $endCursor: String
-  ) @inContext(country: $country, language: $language) {
-    collection(handle: $handle) {
-      id
-      handle
-      title
-      description
-      products(
-        first: $first,
-        last: $last,
-        before: $startCursor,
-        after: $endCursor
-      ) {
-        nodes {
-          ...ProductItem
-        }
-        pageInfo {
-          hasPreviousPage
-          hasNextPage
-          endCursor
-          startCursor
-        }
-      }
-    }
-  }
-` as const;

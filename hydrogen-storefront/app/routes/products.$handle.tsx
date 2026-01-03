@@ -8,9 +8,6 @@ import {
   getAdjacentAndFirstAvailableVariants,
   useSelectedOptionInUrlParam,
 } from '@shopify/hydrogen';
-import {ProductPrice} from '~/components/ProductPrice';
-import {ProductImage} from '~/components/ProductImage';
-import {ProductForm} from '~/components/ProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import { MainProduct } from '~/components/products/MainProduct';
 import { PRODUCT_QUERY } from '~/graphql/products';
@@ -96,8 +93,6 @@ export default function Product() {
     ...product,
     selectedOrFirstAvailableVariant: selectedVariant,
   });
-
-  const {title, descriptionHtml} = product;
 
   return (
     <div className="flex flex-col w-full py-5 relative">

@@ -3,13 +3,13 @@ import {useFetcher} from 'react-router';
 import {AnimatePresence, motion} from 'motion/react';
 import {useUIStore} from '~/stores/store';
 import {Image, Money} from '@shopify/hydrogen';
-import {ProductForm} from '~/components/ProductForm';
+import {ProductForm} from '~/components/products/ProductForm';
 import {
   useOptimisticVariant,
   getAdjacentAndFirstAvailableVariants,
   getProductOptions,
 } from '@shopify/hydrogen';
-import { XIcon } from 'lucide-react';
+import {IoClose} from 'react-icons/io5';
 
 export function QuickViewModal() {
   const {isQuickViewOpen, quickViewProductHandle, closeQuickView} =
@@ -18,9 +18,7 @@ export function QuickViewModal() {
 
   useEffect(() => {
     if (isQuickViewOpen && quickViewProductHandle) {
-      fetcher.load(
-        `/api/product/${quickViewProductHandle}`,
-      );
+      fetcher.load(`/api/product/${quickViewProductHandle}`);
     }
   }, [isQuickViewOpen, quickViewProductHandle]);
 
@@ -49,12 +47,12 @@ export function QuickViewModal() {
                 onClick={closeQuickView}
                 className="absolute top-4 right-4 p-2 text-zinc-500 hover:text-zinc-800 z-10 bg-white/50 backdrop-blur rounded-full transition-colors"
               >
-                <XIcon size={24} />
+                <IoClose size={24} />
               </button>
 
               {isLoading || !product ? (
                 <div className="w-full h-96 flex items-center justify-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-900"></div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-zinc-900"></div>
                 </div>
               ) : (
                 <QuickViewContent product={product} />
@@ -84,11 +82,11 @@ function QuickViewContent({product}: {product: any}) {
     <>
       <div className="w-full md:w-1/2 bg-zinc-50 relative aspect-square md:aspect-auto">
         {selectedVariant?.image && (
-            <Image
+          <Image
             data={selectedVariant.image}
             sizes="(min-width: 768px) 50vw, 100vw"
             className="w-full h-full object-cover absolute inset-0 md:relative"
-            />
+          />
         )}
       </div>
       <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col gap-6">
@@ -99,29 +97,32 @@ function QuickViewContent({product}: {product: any}) {
           <div className="text-xl text-zinc-700">
             <Money data={selectedVariant?.price} />
             {selectedVariant?.compareAtPrice && (
-                <span className="ml-2 text-zinc-400 line-through text-lg">
-                    <Money data={selectedVariant.compareAtPrice} />
-                </span>
+              <span className="ml-2 text-zinc-400 line-through text-lg">
+                <Money data={selectedVariant.compareAtPrice} />
+              </span>
             )}
           </div>
         </div>
 
-        <div className="flex-grow">
+        <div className="flex">
           <ProductForm
             productOptions={productOptions}
             selectedVariant={selectedVariant}
           />
         </div>
-        
+
         <div className="text-sm text-zinc-500 line-clamp-3 leading-relaxed">
-            <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+          <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
         </div>
 
-         <div className="border-t border-zinc-100 pt-4 mt-auto">
-             <a href={`/products/${product.handle}`} className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors uppercase tracking-wide">
-                 View Full Details &rarr;
-             </a>
-         </div>
+        <div className="border-t border-zinc-100 pt-4 mt-auto">
+          <a
+            href={`/products/${product.handle}`}
+            className="text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors uppercase tracking-wide"
+          >
+            View Full Details &rarr;
+          </a>
+        </div>
       </div>
     </>
   );

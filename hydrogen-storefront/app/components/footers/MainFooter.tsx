@@ -1,8 +1,7 @@
-import {NavLink} from 'react-router';
 import {motion} from 'motion/react';
 import MotionNavLink from '~/components/motion/NavLink';
 import FooterEmailSubscribe from './FooterEmailSubscribe';
-import { FacebookIcon, InstagramIcon, TwitterIcon } from 'lucide-react';
+import {FaFacebook, FaInstagram, FaXTwitter} from 'react-icons/fa6';
 
 export default function MainFooter() {
   return (
@@ -28,7 +27,7 @@ export default function MainFooter() {
         className="container"
       >
         <FooterEmailSubscribe />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 px-3 xl:px-0">
           <div className="flex flex-col items-start justify-center">
             <motion.h2
               initial={{
@@ -259,18 +258,30 @@ export default function MainFooter() {
             <div className="flex gap-2">
               <a
                 target="_blank"
-                              href="https://www.facebook.com/"
-                              rel="noopener noreferrer"
-                              aria-label="Facebook"
-                              className="text-zinc-700 hover:text-zinc-900 p-1"
-                          >
-                <FacebookIcon size={20} />
-              </a>  
-              <a target="_blank" href="https://www.instagram.com/" rel="noopener noreferrer" aria-label="Instagram" className="text-zinc-700 hover:text-zinc-900 p-1">
-                <InstagramIcon size={20} />
+                href="https://www.facebook.com/"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                className="text-zinc-700 hover:text-zinc-900 p-1"
+              >
+                <FaFacebook size={20} />
               </a>
-              <a target="_blank" href="https://www.twitter.com/" rel="noopener noreferrer" aria-label="Twitter" className="text-zinc-700 hover:text-zinc-900 p-1">
-                <TwitterIcon size={20} />
+              <a
+                target="_blank"
+                href="https://www.instagram.com/"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="text-zinc-700 hover:text-zinc-900 p-1"
+              >
+                <FaInstagram size={20} />
+              </a>
+              <a
+                target="_blank"
+                href="https://www.twitter.com/"
+                rel="noopener noreferrer"
+                aria-label="Twitter"
+                className="text-zinc-700 hover:text-zinc-900 p-1"
+              >
+                <FaXTwitter size={20} />
               </a>
             </div>
           </div>

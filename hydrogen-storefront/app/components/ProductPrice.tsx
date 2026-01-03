@@ -9,7 +9,7 @@ export function ProductPrice({
   compareAtPrice?: MoneyV2 | null;
 }) {
   return (
-    <div className="product-price flex flex-col">
+    <div className="product-price flex flex-col gap-3">
       {compareAtPrice ? (
         <div className="flex">
           <span className="text-md text-zinc-700 tracking-wide">
@@ -22,7 +22,7 @@ export function ProductPrice({
           </s>
         </div>
       ) : price ? (
-        <Money data={price} />
+        <Money data={price} className="text-sm text-zinc-700 tracking-wide" />
       ) : (
         <span>&nbsp;</span>
       )}

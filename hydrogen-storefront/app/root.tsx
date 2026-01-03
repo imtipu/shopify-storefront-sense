@@ -92,6 +92,7 @@ export async function loader(args: Route.LoaderArgs) {
     ...deferredData,
     ...criticalData,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
+    publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
     shop: getShopAnalytics({
       storefront,
       publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
@@ -182,7 +183,7 @@ export default function App() {
     return <Outlet />;
   }
 
-  return (
+  return data.publicStorefrontId ? (
     <Analytics.Provider
       cart={data.cart}
       shop={data.shop}
@@ -192,6 +193,10 @@ export default function App() {
         <Outlet />
       </PageLayout>
     </Analytics.Provider>
+  ) : (
+    <PageLayout {...data}>
+      <Outlet />
+    </PageLayout>
   );
 }
 

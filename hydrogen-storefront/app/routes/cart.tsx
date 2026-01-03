@@ -110,7 +110,7 @@ export default function Cart() {
   const cart = useLoaderData<typeof loader>();
 
   return (
-    <div className="cart flex flex-col w-full items-center py-10">
+    <div className="cart flex flex-col w-full items-center">
       <PageContent cart={cart} />
     </div>
   );

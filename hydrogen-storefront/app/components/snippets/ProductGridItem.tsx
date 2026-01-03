@@ -7,7 +7,7 @@ import type {
 } from 'storefrontapi.generated';
 import {useUIStore} from '~/stores/store';
 import {motion} from 'motion/react';
-import { EyeIcon } from 'lucide-react';
+import {FiEye} from 'react-icons/fi';
 
 interface Props {
   product:
@@ -48,7 +48,7 @@ export default function ProductGridItem(props: Props) {
             }}
             className="w-full bg-white text-zinc-900 font-medium py-3 rounded-lg shadow-lg hover:bg-zinc-50 transition-colors flex items-center justify-center gap-2"
           >
-            <EyeIcon size={16} />
+            <FiEye size={16} />
             Quick View
           </button>
         </div>

@@ -7,8 +7,8 @@ import type {
 import {AddToCartButton} from '~/components/products/AddToCartButton';
 import type {ProductFragment} from 'storefrontapi.generated';
 import {useCartDrawer} from '~/stores/cart';
-import { MinusIcon, PlusIcon } from 'lucide-react';
-import { useState } from 'react';
+import {FaPlus, FaMinus} from 'react-icons/fa6';
+import {useState} from 'react';
 
 export function ProductForm({
   productOptions,
@@ -18,7 +18,7 @@ export function ProductForm({
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
 }) {
   const navigate = useNavigate();
-  const { openCart: openCartDrawer } = useCartDrawer();
+  const {openCart: openCartDrawer} = useCartDrawer();
   const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (newQuantity: number) => {
@@ -126,22 +126,27 @@ export function ProductForm({
         <div className="flex items-center h-10 border border-gray-400 bg-gray-50 rounded-lg w-full max-w-[130px] overflow-hidden">
           <button
             onClick={handleQuantityMinus}
-            type="button" className="w-16 h-full flex items-center justify-center text-zinc-600">
-            <MinusIcon size={16}/>
+            type="button"
+            className="w-16 h-full flex items-center justify-center text-zinc-600"
+          >
+            <FaMinus size={16} />
           </button>
-          <input type="number"
+          <input
+            type="number"
             value={quantity}
             min={1}
             step={1}
             onChange={(e) => handleQuantityChange(Number(e.target.value))}
-            className="px-2 border-l text-sm text-zinc-600 text-center border-r border-gray-400 h-full w-full outline-none" />
+            className="px-2 border-l text-sm text-zinc-600 text-center border-r border-gray-400 h-full w-full outline-none"
+          />
           <button
             onClick={handleQuantityPlus}
-            type="button" className="w-16 h-full flex items-center justify-center text-zinc-600">
-            <PlusIcon size={16}/>
+            type="button"
+            className="w-16 h-full flex items-center justify-center text-zinc-600"
+          >
+            <FaPlus size={16} />
           </button>
         </div>
-
       </div>
       <AddToCartButton
         disabled={!selectedVariant || !selectedVariant.availableForSale}

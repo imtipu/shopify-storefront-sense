@@ -17,6 +17,15 @@ import {
   DELETE_ADDRESS_MUTATION,
   CREATE_ADDRESS_MUTATION,
 } from '~/graphql/customer-account/CustomerAddressMutations';
+import {
+  IoLocationOutline,
+  IoAddOutline,
+  IoPencilOutline,
+  IoTrashOutline,
+  IoCheckmarkCircleOutline,
+  IoAlertCircleOutline,
+  IoRefreshOutline,
+} from 'react-icons/io5';
 
 export type ActionResponse = {
   addressId?: string | null;
@@ -50,7 +59,6 @@ export async function action({request, context}: Route.ActionArgs) {
       throw new Error('You must provide an address id.');
     }
 
-    // this will ensure redirecting to login never happen for mutatation
     const isLoggedIn = await customerAccount.isLoggedIn();
     if (!isLoggedIn) {
       return data(
@@ -87,7 +95,6 @@ export async function action({request, context}: Route.ActionArgs) {
 
     switch (request.method) {
       case 'POST': {
-        // handle new address creation
         try {
           const {data, errors} = await customerAccount.mutate(
             CREATE_ADDRESS_MUTATION,
@@ -136,7 +143,6 @@ export async function action({request, context}: Route.ActionArgs) {
       }
 
       case 'PUT': {
-        // handle address updates
         try {
           const {data, errors} = await customerAccount.mutate(
             UPDATE_ADDRESS_MUTATION,
@@ -186,7 +192,6 @@ export async function action({request, context}: Route.ActionArgs) {
       }
 
       case 'DELETE': {
-        // handles address deletion
         try {
           const {data, errors} = await customerAccount.mutate(
             DELETE_ADDRESS_MUTATION,
@@ -261,26 +266,53 @@ export default function Addresses() {
   const {defaultAddress, addresses} = customer;
 
   return (
-    <div className="account-addresses">
-      <h2>Addresses</h2>
-      <br />
-      {!addresses.nodes.length ? (
-        <p>You have no addresses saved.</p>
-      ) : (
-        <div>
-          <div>
-            <legend>Create address</legend>
+    <div className="w-full">
+      <div className="flex flex-col gap-1 mb-8">
+        <h2 className="text-lg font-semibold text-zinc-800 tracking-normal">
+          Addresses
+        </h2>
+        <p className="text-sm text-zinc-700/60 font-normal tracking-wide">
+          Manage your shipping and billing addresses.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-12">
+        <section>
+          <div className="flex items-center gap-2 mb-6 pl-1">
+            <IoAddOutline className="w-5 h-5 text-zinc-800" />
+            <h3 className="text-sm font-semibold text-zinc-800 uppercase tracking-wider">
+              Add New Address
+            </h3>
+          </div>
+          <div className="p-8 bg-white border-2 border-zinc-800/5 rounded-lg">
             <NewAddressForm />
           </div>
-          <br />
-          <hr />
-          <br />
-          <ExistingAddresses
-            addresses={addresses}
-            defaultAddress={defaultAddress}
-          />
-        </div>
-      )}
+        </section>
+
+        {!!addresses.nodes.length && (
+          <section>
+            <div className="flex items-center gap-2 mb-6 pl-1">
+              <IoLocationOutline className="w-5 h-5 text-zinc-800" />
+              <h3 className="text-sm font-semibold text-zinc-800 uppercase tracking-wider">
+                Existing Addresses
+              </h3>
+            </div>
+            <ExistingAddresses
+              addresses={addresses}
+              defaultAddress={defaultAddress}
+            />
+          </section>
+        )}
+
+        {!addresses.nodes.length && (
+          <div className="flex flex-col items-center justify-center py-20 bg-white border-2 border-dashed border-zinc-800/5 rounded-lg">
+            <IoLocationOutline className="w-8 h-8 text-zinc-800/20 mb-4" />
+            <p className="text-sm text-zinc-800/60 font-normal tracking-wide">
+              You have no addresses saved yet.
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -307,13 +339,24 @@ function NewAddressForm() {
       defaultAddress={null}
     >
       {({stateForMethod}) => (
-        <div>
+        <div className="pt-4">
           <button
             disabled={stateForMethod('POST') !== 'idle'}
             formMethod="POST"
             type="submit"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2 bg-zinc-800 text-white text-sm font-semibold border-2 border-zinc-800 hover:bg-white hover:text-zinc-800 disabled:opacity-50 transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
           >
-            {stateForMethod('POST') !== 'idle' ? 'Creating' : 'Create'}
+            {stateForMethod('POST') !== 'idle' ? (
+              <>
+                <IoRefreshOutline className="w-4 h-4 animate-spin" />
+                Creating...
+              </>
+            ) : (
+              <>
+                <IoAddOutline className="w-5 h-5" />
+                Add Address
+              </>
+            )}
           </button>
         </div>
       )}
@@ -326,34 +369,41 @@ function ExistingAddresses({
   defaultAddress,
 }: Pick<CustomerFragment, 'addresses' | 'defaultAddress'>) {
   return (
-    <div>
-      <legend>Existing addresses</legend>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {addresses.nodes.map((address) => (
-        <AddressForm
+        <div
           key={address.id}
-          addressId={address.id}
-          address={address}
-          defaultAddress={defaultAddress}
+          className="p-8 bg-white border-2 border-black/5 hover:border-black transition-all"
         >
-          {({stateForMethod}) => (
-            <div>
-              <button
-                disabled={stateForMethod('PUT') !== 'idle'}
-                formMethod="PUT"
-                type="submit"
-              >
-                {stateForMethod('PUT') !== 'idle' ? 'Saving' : 'Save'}
-              </button>
-              <button
-                disabled={stateForMethod('DELETE') !== 'idle'}
-                formMethod="DELETE"
-                type="submit"
-              >
-                {stateForMethod('DELETE') !== 'idle' ? 'Deleting' : 'Delete'}
-              </button>
-            </div>
-          )}
-        </AddressForm>
+          <AddressForm
+            addressId={address.id}
+            address={address}
+            defaultAddress={defaultAddress}
+          >
+            {({stateForMethod}) => (
+              <div className="pt-6 flex flex-wrap gap-3">
+                <button
+                  disabled={stateForMethod('PUT') !== 'idle'}
+                  formMethod="PUT"
+                  type="submit"
+                  className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2 bg-zinc-800 text-white text-xs font-semibold border-2 border-zinc-800 hover:bg-white hover:text-zinc-800 disabled:opacity-50 transition-all"
+                >
+                  <IoPencilOutline className="w-4 h-4" />
+                  {stateForMethod('PUT') !== 'idle' ? 'Saving' : 'Update'}
+                </button>
+                <button
+                  disabled={stateForMethod('DELETE') !== 'idle'}
+                  formMethod="DELETE"
+                  type="submit"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-white text-zinc-800 text-xs font-semibold border-2 border-zinc-800/10 hover:border-red-600 hover:text-red-600 disabled:opacity-50 transition-all"
+                >
+                  <IoTrashOutline className="w-4 h-4" />
+                  {stateForMethod('DELETE') !== 'idle' ? 'Deleting' : 'Delete'}
+                </button>
+              </div>
+            )}
+          </AddressForm>
+        </div>
       ))}
     </div>
   );
@@ -376,141 +426,214 @@ export function AddressForm({
   const action = useActionData<ActionResponse>();
   const error = action?.error?.[addressId];
   const isDefaultAddress = defaultAddress?.id === addressId;
+
+  const inputStyle =
+    'w-full px-4 py-2.5 text-sm bg-white border-2 border-zinc-700/10 text-zinc-800 font-medium placeholder:text-zinc-800/30 focus:border-zinc-700/60 outline-none transition-all rounded-none';
+  const labelStyle =
+    'block text-[10px] font-semibold text-zinc-700 uppercase tracking-widest pl-1 mb-1';
+
   return (
-    <Form id={addressId}>
-      <fieldset>
-        <input type="hidden" name="addressId" defaultValue={addressId} />
-        <label htmlFor="firstName">First name*</label>
+    <Form id={addressId} className="space-y-4">
+      <input type="hidden" name="addressId" defaultValue={addressId} />
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label htmlFor={`firstName-${addressId}`} className={labelStyle}>
+            First name*
+          </label>
+          <input
+            id={`firstName-${addressId}`}
+            name="firstName"
+            aria-label="First name"
+            autoComplete="given-name"
+            defaultValue={address?.firstName ?? ''}
+            placeholder="Jane"
+            required
+            type="text"
+            className={inputStyle}
+          />
+        </div>
+        <div>
+          <label htmlFor={`lastName-${addressId}`} className={labelStyle}>
+            Last name*
+          </label>
+          <input
+            id={`lastName-${addressId}`}
+            name="lastName"
+            aria-label="Last name"
+            autoComplete="family-name"
+            defaultValue={address?.lastName ?? ''}
+            placeholder="Doe"
+            required
+            type="text"
+            className={inputStyle}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label htmlFor={`company-${addressId}`} className={labelStyle}>
+          Company
+        </label>
         <input
-          aria-label="First name"
-          autoComplete="given-name"
-          defaultValue={address?.firstName ?? ''}
-          id="firstName"
-          name="firstName"
-          placeholder="First name"
-          required
-          type="text"
-        />
-        <label htmlFor="lastName">Last name*</label>
-        <input
-          aria-label="Last name"
-          autoComplete="family-name"
-          defaultValue={address?.lastName ?? ''}
-          id="lastName"
-          name="lastName"
-          placeholder="Last name"
-          required
-          type="text"
-        />
-        <label htmlFor="company">Company</label>
-        <input
+          id={`company-${addressId}`}
+          name="company"
           aria-label="Company"
           autoComplete="organization"
           defaultValue={address?.company ?? ''}
-          id="company"
-          name="company"
-          placeholder="Company"
+          placeholder="Company inc."
           type="text"
+          className={inputStyle}
         />
-        <label htmlFor="address1">Address line*</label>
+      </div>
+
+      <div>
+        <label htmlFor={`address1-${addressId}`} className={labelStyle}>
+          Address line 1*
+        </label>
         <input
+          id={`address1-${addressId}`}
+          name="address1"
           aria-label="Address line 1"
           autoComplete="address-line1"
           defaultValue={address?.address1 ?? ''}
-          id="address1"
-          name="address1"
-          placeholder="Address line 1*"
+          placeholder="123 Main St"
           required
           type="text"
+          className={inputStyle}
         />
-        <label htmlFor="address2">Address line 2</label>
+      </div>
+
+      <div>
+        <label htmlFor={`address2-${addressId}`} className={labelStyle}>
+          Address line 2
+        </label>
         <input
+          id={`address2-${addressId}`}
+          name="address2"
           aria-label="Address line 2"
           autoComplete="address-line2"
           defaultValue={address?.address2 ?? ''}
-          id="address2"
-          name="address2"
-          placeholder="Address line 2"
+          placeholder="Apartment, suite, etc."
           type="text"
+          className={inputStyle}
         />
-        <label htmlFor="city">City*</label>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label htmlFor={`city-${addressId}`} className={labelStyle}>
+            City*
+          </label>
+          <input
+            id={`city-${addressId}`}
+            name="city"
+            aria-label="City"
+            autoComplete="address-level2"
+            defaultValue={address?.city ?? ''}
+            placeholder="City"
+            required
+            type="text"
+            className={inputStyle}
+          />
+        </div>
+        <div>
+          <label htmlFor={`zip-${addressId}`} className={labelStyle}>
+            Zip / Postal Code*
+          </label>
+          <input
+            id={`zip-${addressId}`}
+            name="zip"
+            aria-label="Zip"
+            autoComplete="postal-code"
+            defaultValue={address?.zip ?? ''}
+            placeholder="12345"
+            required
+            type="text"
+            className={inputStyle}
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label htmlFor={`zoneCode-${addressId}`} className={labelStyle}>
+            State / Province*
+          </label>
+          <input
+            id={`zoneCode-${addressId}`}
+            name="zoneCode"
+            aria-label="State/Province"
+            autoComplete="address-level1"
+            defaultValue={address?.zoneCode ?? ''}
+            placeholder="CA"
+            required
+            type="text"
+            className={inputStyle}
+          />
+        </div>
+        <div>
+          <label htmlFor={`territoryCode-${addressId}`} className={labelStyle}>
+            Country Code*
+          </label>
+          <input
+            id={`territoryCode-${addressId}`}
+            name="territoryCode"
+            aria-label="territoryCode"
+            autoComplete="country"
+            defaultValue={address?.territoryCode ?? ''}
+            placeholder="US"
+            required
+            type="text"
+            maxLength={2}
+            className={inputStyle}
+          />
+        </div>
+      </div>
+
+      <div>
+        <label htmlFor={`phoneNumber-${addressId}`} className={labelStyle}>
+          Phone
+        </label>
         <input
-          aria-label="City"
-          autoComplete="address-level2"
-          defaultValue={address?.city ?? ''}
-          id="city"
-          name="city"
-          placeholder="City"
-          required
-          type="text"
-        />
-        <label htmlFor="zoneCode">State / Province*</label>
-        <input
-          aria-label="State/Province"
-          autoComplete="address-level1"
-          defaultValue={address?.zoneCode ?? ''}
-          id="zoneCode"
-          name="zoneCode"
-          placeholder="State / Province"
-          required
-          type="text"
-        />
-        <label htmlFor="zip">Zip / Postal Code*</label>
-        <input
-          aria-label="Zip"
-          autoComplete="postal-code"
-          defaultValue={address?.zip ?? ''}
-          id="zip"
-          name="zip"
-          placeholder="Zip / Postal Code"
-          required
-          type="text"
-        />
-        <label htmlFor="territoryCode">Country Code*</label>
-        <input
-          aria-label="territoryCode"
-          autoComplete="country"
-          defaultValue={address?.territoryCode ?? ''}
-          id="territoryCode"
-          name="territoryCode"
-          placeholder="Country"
-          required
-          type="text"
-          maxLength={2}
-        />
-        <label htmlFor="phoneNumber">Phone</label>
-        <input
+          id={`phoneNumber-${addressId}`}
+          name="phoneNumber"
           aria-label="Phone Number"
           autoComplete="tel"
           defaultValue={address?.phoneNumber ?? ''}
-          id="phoneNumber"
-          name="phoneNumber"
           placeholder="+16135551111"
           pattern="^\+?[1-9]\d{3,14}$"
           type="tel"
+          className={inputStyle}
         />
-        <div>
-          <input
-            defaultChecked={isDefaultAddress}
-            id="defaultAddress"
-            name="defaultAddress"
-            type="checkbox"
-          />
-          <label htmlFor="defaultAddress">Set as default address</label>
+      </div>
+
+      <div className="flex items-center gap-2 px-1 pt-2">
+        <input
+          id={`defaultAddress-${addressId}`}
+          name="defaultAddress"
+          type="checkbox"
+          defaultChecked={isDefaultAddress}
+          className="w-4 h-4 text-zinc-800 border-2 border-zinc-800 rounded-none focus:ring-0 accent-zinc-800 cursor-pointer"
+        />
+        <label
+          htmlFor={`defaultAddress-${addressId}`}
+          className="text-xs font-bold text-zinc-700 select-none cursor-pointer"
+        >
+          Set as default address
+        </label>
+      </div>
+
+      {error && (
+        <div className="flex items-center gap-2 px-3 py-2 bg-white text-red-600 border-2 border-red-600 rounded-none text-[10px] font-bold uppercase tracking-wider">
+          <IoAlertCircleOutline className="w-4 h-4 shrink-0" />
+          {error}
         </div>
-        {error ? (
-          <p>
-            <mark>
-              <small>{error}</small>
-            </mark>
-          </p>
-        ) : (
-          <br />
-        )}
-        {children({
-          stateForMethod: (method) => (formMethod === method ? state : 'idle'),
-        })}
-      </fieldset>
+      )}
+
+      {children({
+        stateForMethod: (method) => (formMethod === method ? state : 'idle'),
+      })}
     </Form>
   );
 }

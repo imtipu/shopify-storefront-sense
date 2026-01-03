@@ -7,9 +7,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   plugins: [
-    tailwindcss({
-      
-    }),
+    tailwindcss({}),
     hydrogen(),
     oxygen(),
     reactRouter(),
@@ -36,6 +34,6 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['.tryhydrogen.dev'],
+    allowedHosts: ['.tryhydrogen.dev', '.ngrok-free.app'],
   },
 });

@@ -3,6 +3,8 @@ import type {Route} from './+types/collections._index';
 import {getPaginationVariables, Image} from '@shopify/hydrogen';
 import type {CollectionFragment} from 'storefrontapi.generated';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
+import CollectionGridItem from '~/components/collections/CollectionGridItem';
+import {COLLECTIONS_QUERY} from '~/graphql/collections';
 
 export async function loader(args: Route.LoaderArgs) {
   // Start fetching non-critical data without blocking time to first byte
@@ -20,7 +22,7 @@ export async function loader(args: Route.LoaderArgs) {
  */
 async function loadCriticalData({context, request}: Route.LoaderArgs) {
   const paginationVariables = getPaginationVariables(request, {
-    pageBy: 4,
+    pageBy: 12,
   });
 
   const [{collections}] = await Promise.all([
@@ -42,24 +44,53 @@ function loadDeferredData({context}: Route.LoaderArgs) {
   return {};
 }
 
+export const meta: Route.MetaFunction = ({data}) => {
+  return [
+    {
+      title: 'Collections',
+    },
+    {
+      name: 'description',
+      content: 'Collections',
+    },
+    {
+      name: 'keywords',
+      content: 'Collections',
+    },
+    {
+      name: 'robots',
+      content: 'index, follow',
+    },
+  ];
+};
+
 export default function Collections() {
   const {collections} = useLoaderData<typeof loader>();
 
   return (
-    <div className="collections">
-      <h1>Collections</h1>
-      <PaginatedResourceSection<CollectionFragment>
-        connection={collections}
-        resourcesClassName="collections-grid"
-      >
-        {({node: collection, index}) => (
-          <CollectionItem
-            key={collection.id}
-            collection={collection}
-            index={index}
-          />
-        )}
-      </PaginatedResourceSection>
+    <div className="collections flex flex-col w-full items-center py-10">
+      <div className="container flex flex-col w-full">
+        <div className="flex flex-col w-full items-center justify-center py-5 gap-4">
+          <h1 className="text-lg lg:text-2xl font-medium text-zinc-700">
+            Collections
+          </h1>
+          <p className="text-sm lg:text-base text-zinc-500">
+            Browse our collections
+          </p>
+        </div>
+        <PaginatedResourceSection<CollectionFragment>
+          connection={collections}
+          resourcesClassName="collections-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6 xl:gap-x-15 xl:gap-y-10"
+        >
+          {({node: collection, index}) => (
+            <CollectionGridItem
+              key={collection.id}
+              collection={collection}
+              index={index}
+            />
+          )}
+        </PaginatedResourceSection>
+      </div>
     </div>
   );
 }
@@ -91,43 +122,3 @@ function CollectionItem({
     </Link>
   );
 }
-
-const COLLECTIONS_QUERY = `#graphql
-  fragment Collection on Collection {
-    id
-    title
-    handle
-    image {
-      id
-      url
-      altText
-      width
-      height
-    }
-  }
-  query StoreCollections(
-    $country: CountryCode
-    $endCursor: String
-    $first: Int
-    $language: LanguageCode
-    $last: Int
-    $startCursor: String
-  ) @inContext(country: $country, language: $language) {
-    collections(
-      first: $first,
-      last: $last,
-      before: $startCursor,
-      after: $endCursor
-    ) {
-      nodes {
-        ...Collection
-      }
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-    }
-  }
-` as const;
