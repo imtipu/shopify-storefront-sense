@@ -1,7 +1,9 @@
 import {defineConfig} from 'vite';
 import {hydrogen} from '@shopify/hydrogen/vite';
+// import hydrogenPreset from '@shopify/hydrogen/vite/preset';
 // import {vercelPreset} from '@vercel/remix/vite';
-import {oxygen} from '@shopify/mini-oxygen/vite';
+// import { oxygen } from '@shopify/mini-oxygen/vite';
+import {netlifyPlugin} from '@netlify/remix-edge-adapter/plugin';
 import {reactRouter} from '@react-router/dev/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import tailwindcss from '@tailwindcss/vite';
@@ -10,10 +12,15 @@ export default defineConfig({
   plugins: [
     tailwindcss({}),
     hydrogen(),
-    oxygen(),
+
+    // oxygen(),
     // vercelPreset(),
+    netlifyPlugin(),
     reactRouter(),
     tsconfigPaths(),
+    // remix({
+    //   presets: [hydrogen.preset()],
+    // }),
   ],
   build: {
     // Allow a strict Content-Security-Policy

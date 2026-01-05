@@ -1,7 +1,19 @@
 // Virtual entry point for the app
+// @ts-ignore -- virtual entry point for the app, resolved by Vite at build time
+// import * as reactRouterBuild from 'virtual:react-router/server-build';
+import * as remixBuild from 'virtual:remix/server-build';
 import {storefrontRedirect} from '@shopify/hydrogen';
-import {createRequestHandler} from '@shopify/hydrogen/oxygen';
-import {createHydrogenRouterContext} from '~/lib/context';
+// import { createRequestHandler } from '@shopify/hydrogen/oxygen';
+
+import type { Context } from '@netlify/edge-functions';
+// import createAppLoadContext from '~/lib/context';
+
+import {
+  createHydrogenAppLoadContext,
+  createRequestHandler,
+} from '@netlify/remix-edge-adapter';
+import { createHydrogenRouterContext, createAppLoadContext } from '~/lib/context';
+
 
 /**
  * Export a fetch handler in module format.
@@ -10,13 +22,20 @@ export default {
   async fetch(
     request: Request,
     env: Env,
-    executionContext: ExecutionContext,
+    // executionContext: ExecutionContext,
+    executionContext: Context,
   ): Promise<Response> {
     try {
-      const hydrogenContext = await createHydrogenRouterContext(
+      // const hydrogenContext = await createHydrogenRouterContext(
+      //   request,
+      //   env,
+      //   executionContext,
+      // );
+
+      const appLoadContext = await createHydrogenAppLoadContext(
         request,
-        env,
         executionContext,
+        createAppLoadContext,
       );
 
       /**
@@ -25,17 +44,22 @@ export default {
        */
       const handleRequest = createRequestHandler({
         // eslint-disable-next-line import/no-unresolved
-        build: await import('virtual:react-router/server-build'),
+        // build: await import('virtual:react-router/server-build'),
+        build: remixBuild,
         mode: process.env.NODE_ENV,
-        getLoadContext: () => hydrogenContext,
+        // getLoadContext: () => hydrogenContext,
       });
 
-      const response = await handleRequest(request);
+      const response = await handleRequest(request, appLoadContext);
 
-      if (hydrogenContext.session.isPending) {
+      if (!response) {
+        return new Response('Not Found', {status: 404});
+      }
+
+      if (appLoadContext.session.isPending) {
         response.headers.set(
           'Set-Cookie',
-          await hydrogenContext.session.commit(),
+          await appLoadContext.session.commit(),
         );
       }
 
@@ -48,7 +72,7 @@ export default {
         return storefrontRedirect({
           request,
           response,
-          storefront: hydrogenContext.storefront,
+          storefront: appLoadContext.storefront,
         });
       }
 

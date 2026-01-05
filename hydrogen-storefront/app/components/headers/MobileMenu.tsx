@@ -3,7 +3,7 @@ import type {HeaderQuery} from 'storefrontapi.generated';
 // import {FALLBACK_HEADER_MENU} from '~/constants/menu';
 import {MotionNavLink} from '~/components/motion/NavLink';
 import {useEffect, useRef} from 'react';
-import {useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router';
 import {IoClose} from 'react-icons/io5';
 import {useMobileMenuStore} from '~/stores/menu';
 
