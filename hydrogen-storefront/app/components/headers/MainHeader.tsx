@@ -1,6 +1,6 @@
 import {Suspense} from 'react';
 
-import {NavLink, useAsyncValue} from 'react-router';
+import {NavLink, useAsyncValue, Await} from 'react-router';
 
 import {MotionNavLink} from '~/components/motion/NavLink';
 import {FaBars, FaCartShopping} from 'react-icons/fa6';
@@ -10,7 +10,7 @@ import type {
   HeaderQuery,
 } from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
-import {Await} from 'react-router-dom';
+
 import {AnimatePresence, motion} from 'motion/react';
 import {
   type CartViewPayload,

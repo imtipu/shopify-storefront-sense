@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 /// <reference types="react-router" />
-/// <reference types="@shopify/oxygen-workers-types" />
+// / <reference types="@shopify/oxygen-workers-types" />
 /// <reference types="@shopify/hydrogen/react-router-types" />
 
 // Enhance TypeScript's built-in typings.
@@ -26,5 +26,7 @@ declare global {
     PUBLIC_CUSTOMER_ACCOUNT_API_TOKEN: string;
     PUBLIC_CUSTOMER_ACCOUNT_ID: string;
     SHOP_ID: string;
+    PUBLIC_STOREFRONT_API_VERSION: string;
+    PUBLIC_CHECKOUT_DOMAIN: string;
   }
 }

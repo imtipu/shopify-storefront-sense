@@ -1,7 +1,6 @@
 import {ServerRouter} from 'react-router';
 import {isbot} from 'isbot';
 import {renderToReadableStream} from 'react-dom/server';
-
 import {
   createContentSecurityPolicy,
   type HydrogenRouterContextProvider,
@@ -15,6 +14,7 @@ export default async function handleRequest(
   reactRouterContext: EntryContext,
   context: HydrogenRouterContextProvider,
 ) {
+  console.log('entry.server.tsx: context.env', context.env);
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
@@ -28,7 +28,7 @@ export default async function handleRequest(
     ],
     imgSrc: ["'self'", 'https://cdn.shopify.com', '*'],
 
-    connectSrc: [`wss://${process.env.PUBLIC_TUNNEL_DOMAIN}:3000`],
+    // connectSrc: [`wss://${context.env.PUBLIC_TUNNEL_DOMAIN}:3000`],
   });
 
   const body = await renderToReadableStream(
