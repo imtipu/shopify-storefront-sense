@@ -1,26 +1,17 @@
 import {defineConfig} from 'vite';
 import {hydrogen} from '@shopify/hydrogen/vite';
-// import hydrogenPreset from '@shopify/hydrogen/vite/preset';
-// import {vercelPreset} from '@vercel/remix/vite';
-// import { oxygen } from '@shopify/mini-oxygen/vite';
-import {netlifyPlugin} from '@netlify/remix-edge-adapter/plugin';
+import {oxygen} from '@shopify/mini-oxygen/vite';
 import {reactRouter} from '@react-router/dev/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   plugins: [
-    tailwindcss({}),
+    tailwindcss(),
     hydrogen(),
-
-    // oxygen(),
-    // vercelPreset(),
-    netlifyPlugin(),
+    oxygen(),
     reactRouter(),
     tsconfigPaths(),
-    // remix({
-    //   presets: [hydrogen.preset()],
-    // }),
   ],
   build: {
     // Allow a strict Content-Security-Policy
@@ -43,6 +34,6 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['.tryhydrogen.dev', '.ngrok-free.app'],
+    allowedHosts: ['.tryhydrogen.dev'],
   },
 });

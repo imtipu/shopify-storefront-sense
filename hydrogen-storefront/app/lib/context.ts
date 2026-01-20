@@ -1,9 +1,4 @@
-import {
-  createHydrogenContext,
-  createCustomerAccountClient,
-  type HydrogenContext,
-  InMemoryCache,
-} from '@shopify/hydrogen';
+import {createHydrogenContext} from '@shopify/hydrogen';
 import {AppSession} from '~/lib/session';
 import {CART_QUERY_FRAGMENT} from '~/lib/fragments';
 
@@ -17,9 +12,7 @@ const additionalContext = {
 } as const;
 
 // Automatically augment HydrogenAdditionalContext with the additional context type
-type AdditionalContextType = typeof additionalContext & {
-  customerAccount: ReturnType<typeof createCustomerAccountClient>;
-};
+type AdditionalContextType = typeof additionalContext;
 
 declare global {
   interface HydrogenAdditionalContext extends AdditionalContextType {}
@@ -47,13 +40,6 @@ export async function createHydrogenRouterContext(
     AppSession.init(request, [env.SESSION_SECRET]),
   ]);
 
-  const customerAccount = createCustomerAccountClient({
-    request,
-    session,
-    customerAccountId: env.PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID,
-    shopId: env.SHOP_ID,
-  });
-
   const hydrogenContext = createHydrogenContext(
     {
       env,
@@ -67,46 +53,8 @@ export async function createHydrogenRouterContext(
         queryFragment: CART_QUERY_FRAGMENT,
       },
     },
-    {
-      ...additionalContext,
-      customerAccount,
-    },
+    additionalContext,
   );
 
   return hydrogenContext;
-}
-
-export async function createAppLoadContext(
-  request: Request,
-  env: Env,
-  executionContext: ExecutionContext,
-): Promise<HydrogenContext> {
-  /**
-   * Open a cache instance in the worker and a custom session instance.
-   */
-  if (!env?.SESSION_SECRET) {
-    throw new Error('SESSION_SECRET environment variable is not set');
-  }
-
-  const session = await AppSession.init(request, [env.SESSION_SECRET]);
-
-  const hydrogenContext = createHydrogenContext({
-    env,
-    request,
-    cache: new InMemoryCache(),
-    waitUntil: executionContext.waitUntil,
-    session,
-    i18n: {
-      language: 'EN',
-      country: 'US',
-    },
-    cart: {
-      queryFragment: CART_QUERY_FRAGMENT,
-    },
-  });
-
-  return {
-    ...hydrogenContext,
-    // add your custom context here
-  };
 }
