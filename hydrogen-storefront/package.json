@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "remix:build": "vite build",
-    "build": "shopify hydrogen build --codegen",
-    "dev": "shopify hydrogen dev --codegen --host",
+    "build": "node init && shopify hydrogen build --codegen",
+    "dev": "node init && shopify hydrogen dev --codegen --host",
     "ngrok": "shopify hydrogen dev --codegen --ngrok",
     "preview": "shopify hydrogen preview --build",
     "netlify:preview": "netlify preview",
