@@ -1,6 +1,7 @@
 // Virtual entry point for the app
 import {storefrontRedirect} from '@shopify/hydrogen';
-import {createRequestHandler} from '@shopify/hydrogen/oxygen';
+import { createRequestHandler } from '@shopify/hydrogen/oxygen';
+
 import {createHydrogenRouterContext} from '~/lib/context';
 
 /**
