@@ -1,6 +1,8 @@
 import {ServerRouter} from 'react-router';
 import {isbot} from 'isbot';
-import {renderToReadableStream} from 'react-dom/server';
+import ReactDOMServer from 'react-dom/server';
+const {renderToReadableStream} = ReactDOMServer;
+
 import {
   createContentSecurityPolicy,
   type HydrogenRouterContextProvider,
@@ -14,21 +16,19 @@ export default async function handleRequest(
   reactRouterContext: EntryContext,
   context: HydrogenRouterContextProvider,
 ) {
-  console.log('entry.server.tsx: context.env', context.env);
+  // Debug logging
+  console.log('Entry server context:', {
+    hasContext: !!context,
+    hasEnv: !!context?.env,
+    contextType: typeof context,
+    contextKeys: context ? Object.keys(context) : [],
+  });
+
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
     },
-    fontSrc: ["'self'", 'https://fonts.gstatic.com', 'https://cdn.shopify.com'],
-    styleSrc: [
-      "'self'",
-      'https://fonts.googleapis.com',
-      'https://cdn.shopify.com',
-    ],
-    imgSrc: ["'self'", 'https://cdn.shopify.com', '*'],
-
-    // connectSrc: [`wss://${context.env.PUBLIC_TUNNEL_DOMAIN}:3000`],
   });
 
   const body = await renderToReadableStream(
@@ -49,7 +49,7 @@ export default async function handleRequest(
     },
   );
 
-  if (isbot(request.headers.get('user-agent'))) {
+  if (isbot(request.headers.get('user-agent') || '')) {
     await body.allReady;
   }
 

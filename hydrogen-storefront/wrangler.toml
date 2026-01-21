@@ -1,19 +1,15 @@
+account_id = "8538ee8a1b128c2aecf17e5d9f495b40"
 name = "hydrogen-storefront-sense"
-main = "dist/server/index.js"
-compatibility_date = "2024-11-18"
-compatibility_flags = ["streams_enable_constructors"]
+main = "build/server/index.js"
 
-[site]
-bucket = "dist/client"
-entry-point = "dist/worker"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
 
-[build]
-upload.format = "service-worker"
-command = "npm install && npm run build"
+[assets]
+directory = "build/client"
+binding = "ASSETS"
 
-# [vars]
-# Add your environment variables here. 
-# These should match the keys in your .env file.
-# PUBLIC_STORE_DOMAIN = "..."
-# PUBLIC_STOREFRONT_API_TOKEN = "..."
-# SESSION_SECRET = "..."
+[observability]
+enabled = true
+
+

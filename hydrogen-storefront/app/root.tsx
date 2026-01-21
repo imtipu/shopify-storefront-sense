@@ -63,19 +63,6 @@ export function links() {
       href: 'https://shop.app',
     },
     {rel: 'icon', type: 'image/svg+xml', href: favicon},
-    {rel: 'preconnect', href: 'https://fonts.googleapis.com'},
-    {
-      rel: 'preconnect',
-      href: 'https://fonts.gstatic.com',
-      crossOrigin: 'anonymous',
-    },
-    {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap',
-    },
-    {rel: 'stylesheet', href: resetStyles},
-    {rel: 'stylesheet', href: tailwindCss},
-    {rel: 'stylesheet', href: appStyles},
   ];
 }
 
@@ -92,7 +79,6 @@ export async function loader(args: Route.LoaderArgs) {
     ...deferredData,
     ...criticalData,
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
-    publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
     shop: getShopAnalytics({
       storefront,
       publicStorefrontId: env.PUBLIC_STOREFRONT_ID,
@@ -100,7 +86,7 @@ export async function loader(args: Route.LoaderArgs) {
     consent: {
       checkoutDomain: env.PUBLIC_CHECKOUT_DOMAIN,
       storefrontAccessToken: env.PUBLIC_STOREFRONT_API_TOKEN,
-      withPrivacyBanner: true,
+      withPrivacyBanner: false,
       // localize the privacy banner
       country: args.context.storefront.i18n.country,
       language: args.context.storefront.i18n.language,
@@ -134,6 +120,14 @@ async function loadCriticalData({context}: Route.LoaderArgs) {
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
 function loadDeferredData({context}: Route.LoaderArgs) {
+  console.log('Context in loadDeferredData:', {
+    hasContext: !!context,
+    hasStorefront: !!context?.storefront,
+    hasCustomerAccount: !!context?.customerAccount,
+    hasCart: !!context?.cart,
+    contextKeys: context ? Object.keys(context) : [],
+  });
+
   const {storefront, customerAccount, cart} = context;
 
   // defer the footer query (below the fold)
@@ -164,6 +158,9 @@ export function Layout({children}: {children?: React.ReactNode}) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link rel="stylesheet" href={tailwindCss}></link>
+        <link rel="stylesheet" href={resetStyles}></link>
+        <link rel="stylesheet" href={appStyles}></link>
         <Meta />
         <Links />
       </head>
@@ -183,7 +180,7 @@ export default function App() {
     return <Outlet />;
   }
 
-  return data.publicStorefrontId ? (
+  return (
     <Analytics.Provider
       cart={data.cart}
       shop={data.shop}
@@ -193,10 +190,6 @@ export default function App() {
         <Outlet />
       </PageLayout>
     </Analytics.Provider>
-  ) : (
-    <PageLayout {...data}>
-      <Outlet />
-    </PageLayout>
   );
 }
 
