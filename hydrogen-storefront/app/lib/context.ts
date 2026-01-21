@@ -1,4 +1,7 @@
-import {createHydrogenContext} from '@shopify/hydrogen';
+import {
+  createHydrogenContext,
+  type HydrogenRouterContextProvider,
+} from '@shopify/hydrogen';
 import {AppSession} from '~/lib/session';
 import {CART_QUERY_FRAGMENT} from '~/lib/fragments';
 
@@ -26,7 +29,7 @@ export async function createHydrogenRouterContext(
   request: Request,
   env: Env,
   executionContext: ExecutionContext,
-) {
+): Promise<HydrogenRouterContextProvider<AppSession, Env>> {
   /**
    * Open a cache instance in the worker and a custom session instance.
    */
@@ -52,9 +55,13 @@ export async function createHydrogenRouterContext(
       cart: {
         queryFragment: CART_QUERY_FRAGMENT,
       },
+      buyerIp: request.headers.get('cf-connecting-ip') || undefined,
     },
     additionalContext,
   );
 
-  return hydrogenContext;
+  return hydrogenContext as HydrogenRouterContextProvider<AppSession, Env>;
 }
+
+// Default export for Hydrogen dev server (MiniOxygen) compatibility
+export default createHydrogenRouterContext;

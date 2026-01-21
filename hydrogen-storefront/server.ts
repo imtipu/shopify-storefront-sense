@@ -1,12 +1,9 @@
-// Virtual entry point for the app
-import {storefrontRedirect} from '@shopify/hydrogen';
-import { createRequestHandler } from '@shopify/hydrogen/oxygen';
+// Cloudflare Workers entry point for React Router + Hydrogen
+import {createRequestHandler} from 'react-router';
+import * as build from './build/server/index.js';
+import {createHydrogenRouterContext} from './app/lib/context';
+import {createStorefrontClient, storefrontRedirect} from '@shopify/hydrogen';
 
-import {createHydrogenRouterContext} from '~/lib/context';
-
-/**
- * Export a fetch handler in module format.
- */
 export default {
   async fetch(
     request: Request,
@@ -20,18 +17,15 @@ export default {
         executionContext,
       );
 
-      /**
-       * Create a Remix request handler and pass
-       * Hydrogen's Storefront client to the loader context.
-       */
-      const handleRequest = createRequestHandler({
-        // eslint-disable-next-line import/no-unresolved
-        build: await import('virtual:react-router/server-build'),
-        mode: process.env.NODE_ENV,
-        getLoadContext: () => hydrogenContext,
-      });
+      // const { storefront } = createStorefrontClient({
+      //   waitUntil: executionContext.waitUntil,
+      //   storefrontHeaders: getStorefrontHeaders(request),
+      // });
 
-      const response = await handleRequest(request);
+      const handleRequest = createRequestHandler(build as any);
+
+      // Pass the Hydrogen context to the React Router handler
+      const response = await handleRequest(request, hydrogenContext as any);
 
       if (hydrogenContext.session.isPending) {
         response.headers.set(
@@ -41,11 +35,6 @@ export default {
       }
 
       if (response.status === 404) {
-        /**
-         * Check for redirects only when there's a 404 from the app.
-         * If the redirect doesn't exist, then `storefrontRedirect`
-         * will pass through the 404 response.
-         */
         return storefrontRedirect({
           request,
           response,
@@ -59,4 +48,4 @@ export default {
       return new Response('An unexpected error occurred', {status: 500});
     }
   },
-};
+} satisfies ExportedHandler<Env>;

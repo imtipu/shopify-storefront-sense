@@ -1,8 +1,6 @@
 import {ServerRouter} from 'react-router';
 import {isbot} from 'isbot';
-import ReactDOMServer from 'react-dom/server';
-const {renderToReadableStream} = ReactDOMServer;
-
+import {renderToReadableStream} from 'react-dom/server';
 import {
   createContentSecurityPolicy,
   type HydrogenRouterContextProvider,
@@ -16,14 +14,6 @@ export default async function handleRequest(
   reactRouterContext: EntryContext,
   context: HydrogenRouterContextProvider,
 ) {
-  // Debug logging
-  console.log('Entry server context:', {
-    hasContext: !!context,
-    hasEnv: !!context?.env,
-    contextType: typeof context,
-    contextKeys: context ? Object.keys(context) : [],
-  });
-
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN,
@@ -49,7 +39,7 @@ export default async function handleRequest(
     },
   );
 
-  if (isbot(request.headers.get('user-agent') || '')) {
+  if (isbot(request.headers.get('user-agent'))) {
     await body.allReady;
   }
 

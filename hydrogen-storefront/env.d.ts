@@ -1,10 +1,14 @@
 /// <reference types="vite/client" />
 /// <reference types="react-router" />
-/// <reference types="@shopify/oxygen-workers-types" />
+// <reference types="@shopify/oxygen-workers-types" />
+/// <reference types="@cloudflare/workers-types" />
 /// <reference types="@shopify/hydrogen/react-router-types" />
 
 // Enhance TypeScript's built-in typings.
 import '@total-typescript/ts-reset';
+
+import type {HydrogenEnv} from '@shopify/hydrogen';
+
 
 declare global {
   /**
@@ -27,6 +31,16 @@ declare global {
     PUBLIC_CUSTOMER_ACCOUNT_ID: string;
     SHOP_ID: string;
     PUBLIC_STOREFRONT_API_VERSION: string;
-    PUBLIC_CHECKOUT_DOMAIN: string;
+    PUBLIC_CHECKOUT_DOMAIN?: string;
+    [key: string]: unknown;
   }
+
+  interface Env extends HydrogenEnv {}
+
+  /**
+   * Augment the AppLoadContext with Hydrogen's context.
+   */
+  interface AppLoadContext extends Awaited<
+    ReturnType<typeof import('~/lib/context').createHydrogenRouterContext>
+  > {}
 }

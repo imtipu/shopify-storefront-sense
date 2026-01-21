@@ -5,18 +5,17 @@
   "version": "2025.7.0",
   "type": "module",
   "scripts": {
-    "remix:build": "vite build",
-    "build": "shopify hydrogen build --codegen",
+    "build": "react-router build && vite build --ssr server.ts --outDir build/server",
+    "deploy": "npm run build && wrangler deploy",
     "dev": "shopify hydrogen dev --codegen --host",
-    "ngrok": "shopify hydrogen dev --codegen --ngrok",
-    "preview": "shopify hydrogen preview --build",
-    "netlify:preview": "netlify preview",
+    "preview": "npm run build && wrangler dev",
     "lint": "eslint --no-error-on-unmatched-pattern .",
     "typecheck": "react-router typegen && tsc --noEmit",
     "codegen": "shopify hydrogen codegen && react-router typegen"
   },
   "prettier": "@shopify/prettier-config",
   "dependencies": {
+    "@cloudflare/kv-asset-handler": "^0.4.2",
     "@shopify/hydrogen": "2025.7.0",
     "framer-motion": "^12.23.26",
     "graphql": "^16.10.0",
@@ -32,6 +31,8 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.21.0",
+    "@cloudflare/workers-types": "^4.20260120.0",
     "@eslint/compat": "^1.2.5",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
@@ -64,7 +65,8 @@
     "prettier": "^3.4.2",
     "typescript": "^5.9.2",
     "vite": "^6.2.4",
-    "vite-tsconfig-paths": "^4.3.1"
+    "vite-tsconfig-paths": "^4.3.1",
+    "wrangler": "^4.59.2"
   },
   "engines": {
     "node": ">=22.0.0"

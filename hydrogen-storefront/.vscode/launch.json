@@ -31,6 +31,13 @@
         "request": "launch",
         "command": "npm run codegen",
         "cwd": "${workspaceFolder}"
+      },
+      {
+        "type": "node-terminal",
+        "name": "Preview",
+        "request": "launch",
+        "command": "npm run preview",
+        "cwd": "${workspaceFolder}"
       }
     ]
 }

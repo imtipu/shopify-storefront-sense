@@ -26,9 +26,11 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "types": [
-      "react-router",
-      "@shopify/hydrogen/react-router-types",
-      "vite/client"
+      "@cloudflare/workers-types",
+      "vite/client",
+      "@shopify/hydrogen/storefront-api-types",
+      "@shopify/hydrogen-codegen",
+      "@shopify/mini-oxygen"
     ],
     "paths": {
       "~/*": ["app/*"]
